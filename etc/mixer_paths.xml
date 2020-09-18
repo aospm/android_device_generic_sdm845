@@ -2,5 +2,28 @@
 <mixer>
 	<!-- Enable Internal speaker -->
 	<ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia2" value="1" />
+	<ctl name="MultiMedia3 Mixer SLIMBUS_0_TX" value="1" />
+	<ctl name="Amp DSP Switch" value="1" />
+	<ctl name="CDC_IF TX7 MUX" value="DEC7" />
 </mixer>
+
+
+<!-- tinymix "QUAT_MI2S_RX Audio Mixer MultiMedia1" 1
+tinymix "SLIMBUS_0_RX Audio Mixer MultiMedia2" 1
+tinymix "MultiMedia3 Mixer SLIMBUS_0_TX" 1
+tinymix "AIF1_CAP Mixer SLIM TX7" 1
+tinymix "CDC_IF TX7 MUX" DEC7
+tinymix "SLIM RX0 MUX" AIF1_PB
+tinymix "SLIM RX1 MUX" AIF1_PB
+tinymix "SLIM RX2 MUX" AIF1_PB
+tinymix "SLIM RX3 MUX" AIF1_PB
+tinymix "SLIM RX4 MUX" ZERO
+tinymix "SLIM RX5 MUX" ZERO
+tinymix "SLIM RX6 MUX" ZERO
+tinymix "SLIM RX7 MUX" ZERO
+tinymix "RX INT7_1 MIX1 INP0" RX0
+tinymix "RX INT8_1 MIX1 INP0" RX1
+tinymix "RX INT1_2 MUX" RX0
+tinymix "RX INT2_2 MUX" RX1
+
+tinymix "Amp DSP Switch" 1 -->
