@@ -47,3 +47,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_COPY_FILES += \
     device/generic/sdm845/qcom/init.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.qcom.rc
+
+PRODUCT_VENDOR_PROPERTIES += ro.soc.manufacturer=Qualcomm
+PRODUCT_VENDOR_PROPERTIES += ro.soc.model=SDM845
