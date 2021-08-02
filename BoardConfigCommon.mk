@@ -57,11 +57,11 @@ BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HAVE_BLUETOOTH := true
 
 BOARD_SEPOLICY_DIRS += \
-    device/xiaomi/beryllium/sepolicy \
+    device/oneplus/enchilada/sepolicy \
     system/bt/vendor_libs/linux/sepolicy
 
-DEVICE_MANIFEST_FILE := device/xiaomi/beryllium/manifest.xml
-DEVICE_MATRIX_FILE := device/xiaomi/beryllium/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := device/oneplus/enchilada/manifest.xml
+DEVICE_MATRIX_FILE := device/oneplus/enchilada/compatibility_matrix.xml
 
 # Enable dex pre-opt to speed up initial boot
 ifeq ($(HOST_OS),linux)
