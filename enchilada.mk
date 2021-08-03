@@ -2,11 +2,11 @@ ifndef TARGET_KERNEL_USE
 TARGET_KERNEL_USE := mainline
 endif
 
-KERNEL_MODS := $(wildcard device/oneplus/enchilada/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/*.ko)
+KERNEL_MODS := 
 
 # Following modules go to vendor partition
 # msm.ko is too big (31M) for ramdisk
-VENDOR_KERN_MODS := %/msm.ko
+VENDOR_KERN_MODS := $(wildcard device/oneplus/enchilada/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/*.ko)
 BOARD_VENDOR_KERNEL_MODULES := $(filter $(VENDOR_KERN_MODS),$(KERNEL_MODS))
 
 # All other modules go to ramdisk
