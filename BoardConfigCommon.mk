@@ -57,11 +57,11 @@ BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 BOARD_HAVE_BLUETOOTH := true
 
 BOARD_SEPOLICY_DIRS += \
-    device/oneplus/enchilada/sepolicy \
+    device/generic/sdm845/sepolicy \
     system/bt/vendor_libs/linux/sepolicy
 
-DEVICE_MANIFEST_FILE := device/oneplus/enchilada/manifest.xml
-DEVICE_MATRIX_FILE := device/oneplus/enchilada/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := device/generic/sdm845/manifest.xml
+DEVICE_MATRIX_FILE := device/generic/sdm845/compatibility_matrix.xml
 
 # Enable dex pre-opt to speed up initial boot
 ifeq ($(HOST_OS),linux)
