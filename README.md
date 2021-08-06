@@ -1,4 +1,11 @@
-# device/xiaomi/beryllium (AOSP device config for Xiaomi Poco F1)
+# device/generic/sdm845 (AOSP device config for SDM845 devices)
+
+This device repo aims to support booting AOSP on SDM845 devices supported by the mainline Linux kernel.
+
+## Supported devices
+
+* OnePlus 6 (enchilada)
+* Xiaomi PocoPhone F1 (beryllium)
 
 # How to unlock and root Poco F1?
 ```
@@ -26,29 +33,35 @@ Also Dont forget to take a backup of your images from
 TWRP and copy them to your Host machine. It will come
 very handy. Believe me :)
 
-# How to build and flash beryllium AOSP images?
+# How to build and flash AOSP images?
 
-* Download source and build AOSP images for Poco F1 (Beryllium) -->
+* Download source and build AOSP images
 
-```
+```bash
 mkdir aosp-repo
 cd aosp-repo
 repo init -u https://android.googlesource.com/platform/manifest -b master
 git clone https://github.com/pundiramit/android-local-manifests.git .repo/local_manifests -b master
 repo sync -j$nproc
 source build/envsetup.sh
-lunch beryllium-userdebug
+# See table above
+lunch <codename>-userdebug # Where <codename> is the codename of your device
 make -j$nproc
 ```
 
-  NOTE: To get display working on PocoF1, we need supported Adreno
-        firmware binaries, otherwise PocoF1 will not boot to UI.
+  NOTE: To get display working on SDM845, we need supported Adreno
+        firmware binaries, otherwise the device will not boot to UI.
 
         Adreno binaries are shipped with non-distributable license,
         hence I'm not shipping them in my build setup. You can
         extract Adreno a630_* firmware binaries from a working
         device build. I extracted mine from
         lineage-16.0-20190612-nightly-beryllium-signed.zip ;)
+
+        OnePlus 6 firmware can be obtained here: https://gitlab.com/sdm845-mainline/firmware-oneplus-sdm845, copy the contents
+        of the postmarketos subdirectory up a level.
+        It will need to be supplemented by a630_sqe.fw from
+        linux-firmware.
 
         Then copy the binaries to out vendor directory
         i.e. out/target/product/beryllium/vendor/firmware,
@@ -78,9 +91,9 @@ repo sync -j$nproc
 BUILD_CONFIG=beryllium/build.config.beryllium ./build/build.sh
 ```
 
-* Delete all objects in aosp-repo/device/xiaomi/beryllium/prebuilt-kernel/android-mainline/
+* Delete all objects in aosp-repo/device/generic/sdm845/prebuilt-kernel/android-mainline/
   then copy build artifacts from kernel-repo/out/beryllium-android-mainline/dist/ to
-  aosp-repo/device/xiaomi/beryllium/prebuilt-kernel/android-mainline/ build
+  aosp-repo/device/generic/sdm845/prebuilt-kernel/android-mainline/ build
   AOSP images again.
 
 ```
