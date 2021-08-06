@@ -1,4 +1,4 @@
-modalias_handling enabled
+#modalias_handling enabled
 
 /dev/sw_sync              0660   root       graphics
 
