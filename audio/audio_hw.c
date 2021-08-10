@@ -356,6 +356,7 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     char* route_active_path_name = get_mixer_path_for_port(out_port);
 
     if (out_port != adev->active_port) {
+        audio_route_reset(adev->audio_route);
         ret = audio_route_reset_and_update_path(adev->audio_route, route_active_path_name);
         adev->active_port = out_port;
         if (ret < 0) {
@@ -926,7 +927,7 @@ static void adev_close_output_stream(struct audio_hw_device *dev,
 
 static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
 {
-    ALOGI("CA:: adev_set_parameters");
+    ALOGI("CA:: adev_set_parameters: %s", kvpairs);
     return -ENOSYS;
 }
 
