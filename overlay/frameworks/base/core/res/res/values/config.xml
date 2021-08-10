@@ -30,6 +30,9 @@
     <!-- Separate software navigation bar required on this device. -->
     <bool name="config_showNavigationBar">true</bool>
 
+    <!-- SDM845 uses an input device for the audio jack detection -->
+    <bool name="config_useDevInputEventForAudioJack">true</bool>
+
     <!-- Integer indicating the framework scan interval in milliseconds. -->
     <integer translatable="false" name="config_wifi_framework_scan_interval">10000</integer>
 
