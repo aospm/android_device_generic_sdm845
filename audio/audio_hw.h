@@ -24,6 +24,7 @@
 
 #define CARD_OUT 0
 #define PORT_INTERNAL_SPEAKER 0
+#define PORT_HEADSET 1
 #define CARD_IN 0
 #define PORT_BUILTIN_MIC 3
 

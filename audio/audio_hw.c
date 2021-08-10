@@ -70,6 +70,11 @@ static bool is_aec_input(const struct alsa_stream_in* in) {
 static int get_audio_output_port(audio_devices_t devices) {
     /* Default to internal speaker */
     int port = PORT_INTERNAL_SPEAKER;
+    if (devices & AUDIO_DEVICE_OUT_WIRED_HEADSET) {
+        port = PORT_HEADSET;
+    }
+
+    ALOGV("%s: port = %d", __func__, port);
     return port;
 }
 
