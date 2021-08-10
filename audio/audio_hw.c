@@ -74,8 +74,23 @@ static int get_audio_output_port(audio_devices_t devices) {
         port = PORT_HEADSET;
     }
 
-    ALOGV("%s: port = %d", __func__, port);
+    ALOGI("CA:: %s: port = %d", __func__, port);
     return port;
+}
+
+static char* get_mixer_path_for_port(int port) {
+    switch (port)
+    {
+    case PORT_INTERNAL_SPEAKER:
+        return "speaker";
+        break;
+    case PORT_HEADSET:
+        return "headset";
+        break;    
+    default:
+        return NULL;
+        break;
+    }
 }
 
 static void timestamp_adjust(struct timespec* ts, ssize_t frames, uint32_t sampling_rate) {
@@ -134,7 +149,7 @@ static int read_filter_from_file(const char* filename, int16_t* filter, int max_
             ALOGE("Could not find coefficient %d! Exiting...", num_taps - 1);
             return 0;
         }
-        ALOGV("Coeff %d : %" PRId16, num_taps, filter[num_taps - 1]);
+        ALOGI("CA:: Coeff %d : %" PRId16, num_taps, filter[num_taps - 1]);
         if (num_taps == max_length) {
             ALOGI("%s: max tap length %d reached.", __func__, max_length);
             break;
@@ -210,13 +225,13 @@ static uint32_t out_get_sample_rate(const struct audio_stream *stream)
 
 static int out_set_sample_rate(struct audio_stream *stream, uint32_t rate)
 {
-    ALOGV("out_set_sample_rate: %d", 0);
+    ALOGI("CA:: out_set_sample_rate: %d", 0);
     return -ENOSYS;
 }
 
 static size_t out_get_buffer_size(const struct audio_stream *stream)
 {
-    ALOGV("out_get_buffer_size: %d", 4096);
+    ALOGI("CA:: out_get_buffer_size: %d", 4096);
 
     /* return the closest majoring multiple of 16 frames, as
      * audioflinger expects audio buffers to be a multiple of 16 frames */
@@ -227,21 +242,21 @@ static size_t out_get_buffer_size(const struct audio_stream *stream)
 
 static audio_channel_mask_t out_get_channels(const struct audio_stream *stream)
 {
-    ALOGV("out_get_channels");
+    ALOGI("CA:: out_get_channels");
     struct alsa_stream_out *out = (struct alsa_stream_out *)stream;
     return audio_channel_out_mask_from_count(out->config.channels);
 }
 
 static audio_format_t out_get_format(const struct audio_stream *stream)
 {
-    ALOGV("out_get_format");
+    ALOGI("CA:: out_get_format");
     struct alsa_stream_out *out = (struct alsa_stream_out *)stream;
     return audio_format_from_pcm_format(out->config.format);
 }
 
 static int out_set_format(struct audio_stream *stream, audio_format_t format)
 {
-    ALOGV("out_set_format: %d",format);
+    ALOGI("CA:: out_set_format: %d",format);
     return -ENOSYS;
 }
 
@@ -263,7 +278,7 @@ static int do_output_standby(struct alsa_stream_out *out)
 
 static int out_standby(struct audio_stream *stream)
 {
-    ALOGV("out_standby");
+    ALOGI("CA:: out_standby");
     struct alsa_stream_out *out = (struct alsa_stream_out *)stream;
     int status;
 
@@ -277,13 +292,13 @@ static int out_standby(struct audio_stream *stream)
 
 static int out_dump(const struct audio_stream *stream, int fd)
 {
-    ALOGV("out_dump");
+    ALOGI("CA:: out_dump");
     return 0;
 }
 
 static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
 {
-    ALOGV("out_set_parameters");
+    ALOGI("CA:: out_set_parameters");
     struct alsa_stream_out *out = (struct alsa_stream_out *)stream;
     struct alsa_audio_device *adev = out->dev;
     struct str_parms *parms;
@@ -311,13 +326,13 @@ static int out_set_parameters(struct audio_stream *stream, const char *kvpairs)
 
 static char * out_get_parameters(const struct audio_stream *stream, const char *keys)
 {
-    ALOGV("out_get_parameters");
+    ALOGI("CA:: out_get_parameters");
     return strdup("");
 }
 
 static uint32_t out_get_latency(const struct audio_stream_out *stream)
 {
-    ALOGV("out_get_latency");
+    ALOGI("CA:: out_get_latency");
     struct alsa_stream_out *out = (struct alsa_stream_out *)stream;
     return (PLAYBACK_PERIOD_SIZE * PLAYBACK_PERIOD_COUNT * 1000) / out->config.rate;
 }
@@ -325,7 +340,7 @@ static uint32_t out_get_latency(const struct audio_stream_out *stream)
 static int out_set_volume(struct audio_stream_out *stream, float left,
         float right)
 {
-    ALOGV("out_set_volume: Left:%f Right:%f", left, right);
+    ALOGI("CA:: out_set_volume: Left:%f Right:%f", left, right);
     return -ENOSYS;
 }
 
@@ -337,8 +352,18 @@ static ssize_t out_write(struct audio_stream_out *stream, const void* buffer,
     struct alsa_audio_device *adev = out->dev;
     size_t frame_size = audio_stream_out_frame_size(stream);
     size_t out_frames = bytes / frame_size;
+    int out_port = get_audio_output_port(out->devices);
+    char* route_active_path_name = get_mixer_path_for_port(out_port);
 
-    ALOGV("%s: devices: %d, bytes %zu", __func__, out->devices, bytes);
+    if (out_port != adev->active_port) {
+        ret = audio_route_reset_and_update_path(adev->audio_route, route_active_path_name);
+        adev->active_port = out_port;
+        if (ret < 0) {
+            ALOGE("CA:: %s() failed to set path %s", __func__, route_active_path_name);
+        }
+    }
+
+    ALOGI("CA:: %s: devices: %d, bytes %zu", __func__, out->devices, bytes);
 
     /* acquiring hw device mutex systematically is useful if a low priority thread is waiting
      * on the output stream mutex - e.g. executing select_mode() while holding the hw device
@@ -390,7 +415,7 @@ exit:
 static int out_get_render_position(const struct audio_stream_out *stream,
         uint32_t *dsp_frames)
 {
-    ALOGV("out_get_render_position: dsp_frames: %p", dsp_frames);
+    ALOGI("CA:: out_get_render_position: dsp_frames: %p", dsp_frames);
     return -ENOSYS;
 }
 
@@ -404,7 +429,7 @@ static int out_get_presentation_position(const struct audio_stream_out *stream,
 
     *frames = out->frames_written;
     *timestamp = out->timestamp;
-    ALOGV("%s: frames: %" PRIu64 ", timestamp (nsec): %" PRIu64, __func__, *frames,
+    ALOGI("CA:: %s: frames: %" PRIu64 ", timestamp (nsec): %" PRIu64, __func__, *frames,
           audio_utils_ns_from_timespec(timestamp));
 
     return 0;
@@ -413,13 +438,13 @@ static int out_get_presentation_position(const struct audio_stream_out *stream,
 
 static int out_add_audio_effect(const struct audio_stream *stream, effect_handle_t effect)
 {
-    ALOGV("out_add_audio_effect: %p", effect);
+    ALOGI("CA:: out_add_audio_effect: %p", effect);
     return 0;
 }
 
 static int out_remove_audio_effect(const struct audio_stream *stream, effect_handle_t effect)
 {
-    ALOGV("out_remove_audio_effect: %p", effect);
+    ALOGI("CA:: out_remove_audio_effect: %p", effect);
     return 0;
 }
 
@@ -427,7 +452,7 @@ static int out_get_next_write_timestamp(const struct audio_stream_out *stream,
         int64_t *timestamp)
 {
     *timestamp = 0;
-    ALOGV("out_get_next_write_timestamp: %ld", (long int)(*timestamp));
+    ALOGI("CA:: out_get_next_write_timestamp: %ld", (long int)(*timestamp));
     return -ENOSYS;
 }
 
@@ -490,7 +515,7 @@ static uint32_t in_get_sample_rate(const struct audio_stream *stream)
 
 static int in_set_sample_rate(struct audio_stream *stream, uint32_t rate)
 {
-    ALOGV("in_set_sample_rate: %d", rate);
+    ALOGI("CA:: in_set_sample_rate: %d", rate);
     return -ENOSYS;
 }
 
@@ -508,14 +533,14 @@ static size_t get_input_buffer_size(size_t frames, audio_format_t format,
 static audio_channel_mask_t in_get_channels(const struct audio_stream *stream)
 {
     struct alsa_stream_in *in = (struct alsa_stream_in *)stream;
-    ALOGV("in_get_channels: %d", in->config.channels);
+    ALOGI("CA:: in_get_channels: %d", in->config.channels);
     return audio_channel_in_mask_from_count(in->config.channels);
 }
 
 static audio_format_t in_get_format(const struct audio_stream *stream)
 {
     struct alsa_stream_in *in = (struct alsa_stream_in *)stream;
-    ALOGV("in_get_format: %d", in->config.format);
+    ALOGI("CA:: in_get_format: %d", in->config.format);
     return audio_format_from_pcm_format(in->config.format);
 }
 
@@ -534,14 +559,14 @@ static size_t in_get_buffer_size(const struct audio_stream *stream)
 
     size_t buffer_size =
             get_input_buffer_size(frames, stream->get_format(stream), stream->get_channels(stream));
-    ALOGV("in_get_buffer_size: %zu", buffer_size);
+    ALOGI("CA:: in_get_buffer_size: %zu", buffer_size);
     return buffer_size;
 }
 
 static int in_get_active_microphones(const struct audio_stream_in* stream,
                                      struct audio_microphone_characteristic_t* mic_array,
                                      size_t* mic_count) {
-    ALOGV("in_get_active_microphones");
+    ALOGI("CA:: in_get_active_microphones");
     if ((mic_array == NULL) || (mic_count == NULL)) {
         return -EINVAL;
     }
@@ -632,7 +657,7 @@ static ssize_t in_read(struct audio_stream_in *stream, void* buffer,
     size_t frame_size = audio_stream_in_frame_size(stream);
     size_t in_frames = bytes / frame_size;
 
-    ALOGV("in_read: stream: %d, bytes %zu", in->source, bytes);
+    ALOGI("CA:: in_read: stream: %d, bytes %zu", in->source, bytes);
 
     /* Special handling for Echo Reference: simply get the reference from FIFO.
      * The format and sample rate should be specified by arguments to adev_open_input_stream. */
@@ -769,7 +794,7 @@ static int in_get_capture_position(const struct audio_stream_in* stream, int64_t
 
     *frames = in->frames_read;
     *time = in->timestamp_nsec;
-    ALOGV("%s: source: %d, timestamp (nsec): %" PRIu64, __func__, in->source, *time);
+    ALOGI("CA:: %s: source: %d, timestamp (nsec): %" PRIu64, __func__, in->source, *time);
 
     return 0;
 }
@@ -797,14 +822,20 @@ static int adev_open_output_stream(struct audio_hw_device *dev,
         struct audio_stream_out **stream_out,
         const char *address __unused)
 {
-    ALOGV("adev_open_output_stream...");
-
+    ALOGI("CA:: adev_open_output_stream...");
+    
     struct alsa_audio_device *ladev = (struct alsa_audio_device *)dev;
     int out_port = get_audio_output_port(devices);
+    char* route_active_path_name = get_mixer_path_for_port(out_port);
     struct pcm_params* params = pcm_params_get(CARD_OUT, out_port, PCM_OUT);
     if (!params) {
         return -ENOSYS;
     }
+
+    if (audio_route_apply_and_update_path(ladev->audio_route, route_active_path_name) < 0) {
+        ALOGE("CA:: %s() Failed to apply path %s", __func__, route_active_path_name);
+    }
+    ladev->active_port = out_port;
 
     struct alsa_stream_out* out =
             (struct alsa_stream_out*)calloc(1, sizeof(struct alsa_stream_out));
@@ -885,7 +916,7 @@ error_1:
 static void adev_close_output_stream(struct audio_hw_device *dev,
         struct audio_stream_out *stream)
 {
-    ALOGV("adev_close_output_stream...");
+    ALOGI("CA:: adev_close_output_stream...");
     struct alsa_audio_device *adev = (struct alsa_audio_device *)dev;
     destroy_aec_reference_config(adev->aec);
     struct alsa_stream_out* out = (struct alsa_stream_out*)stream;
@@ -895,21 +926,21 @@ static void adev_close_output_stream(struct audio_hw_device *dev,
 
 static int adev_set_parameters(struct audio_hw_device *dev, const char *kvpairs)
 {
-    ALOGV("adev_set_parameters");
+    ALOGI("CA:: adev_set_parameters");
     return -ENOSYS;
 }
 
 static char * adev_get_parameters(const struct audio_hw_device *dev,
         const char *keys)
 {
-    ALOGV("adev_get_parameters");
+    ALOGI("CA:: adev_get_parameters");
     return strdup("");
 }
 
 static int adev_get_microphones(const struct audio_hw_device* dev,
                                 struct audio_microphone_characteristic_t* mic_array,
                                 size_t* mic_count) {
-    ALOGV("adev_get_microphones");
+    ALOGI("CA:: adev_get_microphones");
     if ((mic_array == NULL) || (mic_count == NULL)) {
         return -EINVAL;
     }
@@ -919,49 +950,49 @@ static int adev_get_microphones(const struct audio_hw_device* dev,
 
 static int adev_init_check(const struct audio_hw_device *dev)
 {
-    ALOGV("adev_init_check");
+    ALOGI("CA:: adev_init_check");
     return 0;
 }
 
 static int adev_set_voice_volume(struct audio_hw_device *dev, float volume)
 {
-    ALOGV("adev_set_voice_volume: %f", volume);
+    ALOGI("CA:: adev_set_voice_volume: %f", volume);
     return -ENOSYS;
 }
 
 static int adev_set_master_volume(struct audio_hw_device *dev, float volume)
 {
-    ALOGV("adev_set_master_volume: %f", volume);
+    ALOGI("CA:: adev_set_master_volume: %f", volume);
     return -ENOSYS;
 }
 
 static int adev_get_master_volume(struct audio_hw_device *dev, float *volume)
 {
-    ALOGV("adev_get_master_volume: %f", *volume);
+    ALOGI("CA:: adev_get_master_volume: %f", *volume);
     return -ENOSYS;
 }
 
 static int adev_set_master_mute(struct audio_hw_device *dev, bool muted)
 {
-    ALOGV("adev_set_master_mute: %d", muted);
+    ALOGI("CA:: adev_set_master_mute: %d", muted);
     return -ENOSYS;
 }
 
 static int adev_get_master_mute(struct audio_hw_device *dev, bool *muted)
 {
-    ALOGV("adev_get_master_mute: %d", *muted);
+    ALOGI("CA:: adev_get_master_mute: %d", *muted);
     return -ENOSYS;
 }
 
 static int adev_set_mode(struct audio_hw_device *dev, audio_mode_t mode)
 {
-    ALOGV("adev_set_mode: %d", mode);
+    ALOGI("CA:: adev_set_mode: %d", mode);
     return 0;
 }
 
 static int adev_set_mic_mute(struct audio_hw_device *dev, bool state)
 {
-    ALOGV("adev_set_mic_mute: %d",state);
+    ALOGI("CA:: adev_set_mic_mute: %d",state);
     struct alsa_audio_device *adev = (struct alsa_audio_device *)dev;
     pthread_mutex_lock(&adev->lock);
     adev->mic_mute = state;
@@ -971,7 +1002,7 @@ static int adev_set_mic_mute(struct audio_hw_device *dev, bool state)
 
 static int adev_get_mic_mute(const struct audio_hw_device *dev, bool *state)
 {
-    ALOGV("adev_get_mic_mute");
+    ALOGI("CA:: adev_get_mic_mute");
     struct alsa_audio_device *adev = (struct alsa_audio_device *)dev;
     pthread_mutex_lock(&adev->lock);
     *state = adev->mic_mute;
@@ -984,7 +1015,7 @@ static size_t adev_get_input_buffer_size(const struct audio_hw_device *dev,
 {
     size_t buffer_size =
             get_input_buffer_size(CAPTURE_PERIOD_SIZE, config->format, config->channel_mask);
-    ALOGV("adev_get_input_buffer_size: %zu", buffer_size);
+    ALOGI("CA:: adev_get_input_buffer_size: %zu", buffer_size);
     return buffer_size;
 }
 
@@ -993,7 +1024,7 @@ static int adev_open_input_stream(struct audio_hw_device* dev, audio_io_handle_t
                                   struct audio_stream_in** stream_in,
                                   audio_input_flags_t flags __unused, const char* address __unused,
                                   audio_source_t source) {
-    ALOGV("adev_open_input_stream...");
+    ALOGI("CA:: adev_open_input_stream...");
 
     struct alsa_audio_device *ladev = (struct alsa_audio_device *)dev;
 
@@ -1079,7 +1110,7 @@ error_1:
 static void adev_close_input_stream(struct audio_hw_device *dev,
         struct audio_stream_in *stream)
 {
-    ALOGV("adev_close_input_stream...");
+    ALOGI("CA:: adev_close_input_stream...");
     struct alsa_stream_in* in = (struct alsa_stream_in*)stream;
     if (is_aec_input(in)) {
         destroy_aec_mic_config(in->dev->aec);
@@ -1090,13 +1121,13 @@ static void adev_close_input_stream(struct audio_hw_device *dev,
 
 static int adev_dump(const audio_hw_device_t *device, int fd)
 {
-    ALOGV("adev_dump");
+    ALOGI("CA:: adev_dump");
     return 0;
 }
 
 static int adev_close(hw_device_t *device)
 {
-    ALOGV("adev_close");
+    ALOGI("CA:: adev_close");
 
     struct alsa_audio_device *adev = (struct alsa_audio_device *)device;
     release_aec(adev->aec);
@@ -1109,7 +1140,7 @@ static int adev_close(hw_device_t *device)
 static int adev_open(const hw_module_t* module, const char* name,
         hw_device_t** device)
 {
-    ALOGV("adev_open: %s", name);
+    ALOGI("CA:: adev_open: %s", name);
 
     if (strcmp(name, AUDIO_HARDWARE_INTERFACE) != 0) {
         return -EINVAL;

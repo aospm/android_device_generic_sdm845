@@ -80,6 +80,7 @@ struct alsa_audio_device {
     struct mixer *mixer;
     bool mic_mute;
     struct aec_t *aec;
+    int active_port;
 };
 
 struct alsa_stream_in {
