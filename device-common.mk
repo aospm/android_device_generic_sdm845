@@ -176,6 +176,10 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-impl \
     android.hardware.light@2.0-service
 
+# Haptics
+PRODUCT_PACKAGES += \
+    android.hardware.vibrator@1.1-service.sdm845
+
 # Copy standard platform config files
 PRODUCT_COPY_FILES +=  \
     $(LOCAL_PATH)/ueventd.common.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc \

@@ -8,3 +8,6 @@ modalias_handling enabled
 
 # media.codec2
 /dev/ion 0664 system system
+
+# Input devices
+/dev/input/* 0660 system input

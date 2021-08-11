@@ -1,0 +1,13 @@
+# Vibrator HAL scans input devices to find the haptics device
+# it then calls ioctls on it.
+# type hal_vibrator_default_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_vibrator_default);
+
+allow hal_vibrator_default input_device:chr_file { ioctl open read write };
+# EVIOCGBIT + EV_FF
+allowxperm hal_vibrator_default input_device:chr_file ioctl 0x4535;
+# EVIOCSFF
+allowxperm hal_vibrator_default input_device:chr_file ioctl 0x4580;
+# EVIOCRMFF
+allowxperm hal_vibrator_default input_device:chr_file ioctl 0x4581;
+allow hal_vibrator_default input_device:dir { open read search };
