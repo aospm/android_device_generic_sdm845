@@ -13,10 +13,3 @@
 // limitations under the License.
 
 soong_namespace {}
-
-subdirs = [
-    "qcom/pd-mapper",
-    "qcom/qrtr",
-    "qcom/rmtfs",
-    "qcom/tqftpserv",
-]
