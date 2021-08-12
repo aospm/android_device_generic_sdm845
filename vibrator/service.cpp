@@ -48,10 +48,10 @@ static bool inputDevSupportsFF(std::string devname) {
 	int request = EVIOCGBIT(EV_FF, sizeof(features)*sizeof(unsigned char));
 	bool supported = false;
 
-    ALOGE("CA:: %s: Testing device: %s", __func__, devname.c_str());
+    ALOGE("%s: Testing device: %s", __func__, devname.c_str());
 
 	if ((ret = ioctl(tempFd, request, &features)) < 0) {
-        ALOGE("CA:: %s: ioctl() failed with errno = %d", __func__, ret);
+        ALOGE("%s: ioctl() failed with errno = %d", __func__, ret);
 		supported = false;
     }
 	if (testBit(FF_RUMBLE, features)) {
@@ -83,7 +83,7 @@ static std::string findFirstFFDevice() {
         std::string devpath(devname);
         if (inputDevSupportsFF(devpath)) {
             closedir(dir);
-            ALOGI("CA:: %s(): Found haptics device: %s", __func__, devpath.c_str());
+            ALOGV("%s(): Found haptics device: %s", __func__, devpath.c_str());
             return devpath;
         }
     }
@@ -97,7 +97,6 @@ status_t registerVibratorService() {
     if (hapticsDev.length() < 2)
         return UNKNOWN_ERROR;
     sp<IVibrator> vibrator = new Vibrator(hapticsDev);
-    ALOGI("CA:: %s", __func__);
 
     return vibrator->registerAsService();
 }
