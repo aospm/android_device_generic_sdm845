@@ -22,8 +22,11 @@
 #include <log/log.h>
 #include <cutils/properties.h>
 
+#include <dirent.h>
+#include <fcntl.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
@@ -42,8 +45,10 @@ static pthread_once_t g_init = PTHREAD_ONCE_INIT;
 static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
 static int rgb_brightness_ratio = 255;
 
-char const*const LCD_FILE
-        = "/sys/class/backlight/wled/brightness";
+char const*const BACKLIGHT_CLASS
+        = "/sys/class/backlight";
+char const*const BACKLIGHT_CLASS_FSTRING
+        = "/sys/class/backlight/%s/brightness";
 
 /**
  * device methods
@@ -69,13 +74,37 @@ void init_globals(void)
     }
 }
 
+static bool findFirstBacklightDevice(char *filename) {
+    struct dirent *de;
+    DIR *dir = opendir("/sys/class/backlight");
+    if (dir == NULL)
+        return NULL;
+    while((de = readdir(dir))) {
+        if(de->d_name[0] == '.' &&
+           (de->d_name[1] == '\0' ||
+            (de->d_name[1] == '.' && de->d_name[2] == '\0')))
+            continue;
+        strcpy(filename, de->d_name);
+        closedir(dir);
+        return true;
+    }
+    closedir(dir);
+    return false;
+}
+
 static int
-write_int(char const* path, int value)
+write_brightness(int value)
 {
     int fd;
-    static int already_warned = 0;
+    char brightness_path[4096];
+    char filename[256];
+    if (!findFirstBacklightDevice(filename)) {
+        ALOGE("CA:: Couldn't find backlight brightness path");
+        return -EINVAL;
+    }
 
-    fd = open(path, O_WRONLY);
+    snprintf(brightness_path, 4096, BACKLIGHT_CLASS_FSTRING, filename);
+    fd = open(brightness_path, O_WRONLY);
     if (fd >= 0) {
         char buffer[20];
         ssize_t amt;
@@ -89,10 +118,7 @@ write_int(char const* path, int value)
         close(fd);
         return amt == -1 ? -errno : 0;
     } else {
-        if (already_warned == 0) {
-            ALOGE("write_int failed to open %s\n", path);
-            already_warned = 1;
-        }
+        ALOGE("write_brightness failed to open %s, fd = %d, errno = %d\n", brightness_path, fd, errno);
         return -errno;
     }
 }
@@ -114,7 +140,7 @@ set_light_backlight(struct light_device_t* dev,
     }
 
     int brightness = rgb_to_brightness(state) << 4; // Scale up to 4095
-    write_int(LCD_FILE, brightness);
+    write_brightness(brightness);
 
     return 0;
 }
@@ -140,6 +166,7 @@ close_lights(struct light_device_t *dev)
 static int open_lights(const struct hw_module_t* module, char const* name,
         struct hw_device_t** device)
 {
+    (void)name;
     pthread_once(&g_init, init_globals);
 
     struct light_device_t *dev = malloc(sizeof(struct light_device_t));

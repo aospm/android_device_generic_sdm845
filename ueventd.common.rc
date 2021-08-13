@@ -11,3 +11,6 @@ modalias_handling enabled
 
 # Input devices
 /dev/input/* 0660 system input
+
+# Backlights
+/sys/class/backlight/* brightness 0660 system system
