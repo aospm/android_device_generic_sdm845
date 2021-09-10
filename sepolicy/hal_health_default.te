@@ -1,0 +1,12 @@
+
+allow hal_health_default fwk_stats_hwservice:hwservice_manager find;
+binder_call(hal_health_default, statsd)
+allow hal_health_default fwk_stats_service:service_manager find;
+binder_use(hal_health_default)
+allow hal_health_default sysfs_batteryinfo:dir search;
+allow hal_health_default sysfs_batteryinfo:file rw_file_perms;
+allow hal_health_default sysfs_thermal:dir r_dir_perms;
+allow hal_health_default sysfs_thermal:file rw_file_perms;
+
+allow hal_health_default self:capability2 wake_alarm;
+allow hal_health_default mnt_vendor_file:dir search;
