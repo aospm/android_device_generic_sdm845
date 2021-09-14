@@ -48,7 +48,7 @@ static bool inputDevSupportsFF(std::string devname) {
 	int request = EVIOCGBIT(EV_FF, sizeof(features)*sizeof(unsigned char));
 	bool supported = false;
 
-    ALOGE("%s: Testing device: %s", __func__, devname.c_str());
+    ALOGV("%s: Testing device: %s", __func__, devname.c_str());
 
 	if ((ret = ioctl(tempFd, request, &features)) < 0) {
         ALOGE("%s: ioctl() failed with errno = %d", __func__, ret);
