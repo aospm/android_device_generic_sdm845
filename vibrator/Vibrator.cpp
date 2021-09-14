@@ -35,7 +35,6 @@
 #include <fstream>
 #include <cstring>
 
-
 namespace android {
 namespace hardware {
 namespace vibrator {
@@ -52,6 +51,8 @@ static constexpr EffectStrength MAX_EFFECT_STRENGTH = EffectStrength::STRONG;
 
 #define EFFECT_INDEX(effect, strength) \
 	((uint16_t)effect * (uint16_t)MAX_EFFECT_STRENGTH + (uint16_t)strength)
+
+static constexpr int DEFAULT_EFFECT_ID = EFFECT_INDEX(Effect::CLICK, EffectStrength::MEDIUM);
 
 Vibrator::Vibrator(std::string devpath) :
 	mInputDevPath(devpath)
@@ -120,12 +121,12 @@ Return<Status> Vibrator::on(uint32_t timeoutMs) {
 	struct ff_effect* effect;
 	// If the active effect is set, use it instead of the default
 	if (mActiveEffectId < 0) {
-		effect = &mEffects[EFFECT_INDEX(Effect::CLICK , EffectStrength::MEDIUM)];
+		effect = &mEffects[DEFAULT_EFFECT_ID];
 	} else {
 		effect = &mEffects[mActiveEffectId];
 	}
 
-	ALOGV("%s, timeoutMs = %d, effect.id = %d, magnitude = %d", __func__, timeoutMs, effect->id, effect->u.rumble.strong_magnitude);
+	ALOGV("%s() mActiveEffectId = %d, timeoutMs = %d, effect.id = %d, magnitude = %d", __func__, mActiveEffectId, timeoutMs, effect->id, effect->u.rumble.strong_magnitude);
 	struct input_event play;
 	int ret;
 
@@ -141,6 +142,8 @@ Return<Status> Vibrator::on(uint32_t timeoutMs) {
 
 	usleep(timeoutMs * 1000);
 
+	off();
+
 	return Status::OK;
 }
 
@@ -150,7 +153,8 @@ Return<Status> Vibrator::off()  {
 	struct ff_effect* effect;
 	// If the active effect is set, use it instead of the default
 	if (mActiveEffectId < 0) {
-		effect = &mEffects[(uint16_t)Effect::CLICK * (uint16_t)EffectStrength::STRONG];
+		ALOGV("%s() no active effect, stopping default", __func__);
+		effect = &mEffects[DEFAULT_EFFECT_ID];
 	} else {
 		effect = &mEffects[mActiveEffectId];
 	}
@@ -210,7 +214,7 @@ Return<void> Vibrator::performEffect(Effect effect, EffectStrength strength,
 
 	ALOGV("%s() effect = %d, strength = %d", __func__, effect, (int)strength);
 
-	if (effect > Effect::TICK){
+	if (effect > MAX_EFFECT){
 		_hidl_cb(Status::UNSUPPORTED_OPERATION, 0);
 		return Void();
 	}
@@ -224,12 +228,11 @@ Return<void> Vibrator::performEffect(Effect effect, EffectStrength strength,
 	 * only call it if we're doing a double click
 	 */
 	if (doubleClick) {
-		off();
 		timeMs += 59;
 		usleep(50 * 1000);
 		on(timeMs);
-		mActiveEffectId = -1; // Reset the active effectId
 	}
+	mActiveEffectId = -1;
 
 	_hidl_cb(status, timeMs);
 
