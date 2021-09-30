@@ -14,8 +14,8 @@ BOARD_KERNEL_CMDLINE     := earlycon earlyprintk console=ttyMSM0,115200n8 androi
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=enchilada androidboot.boot_devices=soc@0/1d84000.ufshc
 BOARD_KERNEL_CMDLINE     += firmware_class.path=/vendor/firmware/ init=/init printk.devkmsg=on
 BOARD_KERNEL_CMDLINE     += deferred_probe_timeout=30
-BOARD_KERNEL_CMDLINE     += fw_devlink=permissive selinux=0
- 
+BOARD_KERNEL_CMDLINE     += fw_devlink=on selinux=0
+
 # Image Configuration
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864 #64M
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2998927360
