@@ -10,10 +10,10 @@ BOARD_KERNEL_BASE        := 0x00000000
 BOARD_KERNEL_PAGESIZE    := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET     := 0x01000000
-BOARD_KERNEL_CMDLINE     := earlycon earlyprintk console=ttyMSM0,115200n8 console=ttyGS0,115200 androidboot.console=ttyMSM0
+BOARD_KERNEL_CMDLINE     := earlycon console=ttyMSM0,115200n8 androidboot.console=ttyMSM0
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=sdm845 androidboot.boot_devices=soc@0/1d84000.ufshc
 BOARD_KERNEL_CMDLINE     += firmware_class.path=/vendor/firmware/ init=/init printk.devkmsg=on
-BOARD_KERNEL_CMDLINE     += deferred_probe_timeout=0
+BOARD_KERNEL_CMDLINE     += deferred_probe_timeout=30
 BOARD_KERNEL_CMDLINE     += fw_devlink=on selinux=0
 
 # Image Configuration

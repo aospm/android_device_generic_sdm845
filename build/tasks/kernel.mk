@@ -1,7 +1,7 @@
 ifneq ($(filter enchilada beryllium sdm845, $(TARGET_DEVICE)),)
 
 IMAGE_GZ := device/generic/sdm845/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/Image.gz
-DTB := $(wildcard device/generic/sdm845/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/*.dtb)
+DTB := $(wildcard device/generic/sdm845/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/sdm845-oneplus-enchilada.dtb)
 
 $(PRODUCT_OUT)/kernel: $(IMAGE_GZ) $(DTB)
 	cat $(IMAGE_GZ) $(DTB) > $@
