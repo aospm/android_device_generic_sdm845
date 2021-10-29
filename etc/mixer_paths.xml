@@ -98,4 +98,9 @@ tinymix "COMP2 Switch" 1
 tinymix "RX1 Digital Volume" 84
 tinymix "RX2 Digital Volume" 84
 
+tinymix2 set "SLIM RX2 MUX" "AIF4_PB"
+tinymix2 set "SLIM RX3 MUX" "AIF4_PB"
+tinymix2 set "RX INT1_2 MUX" "RX2"
+tinymix2 set "RX INT2_2 MUX" "RX3"
+
 -->

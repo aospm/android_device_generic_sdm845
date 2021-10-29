@@ -1,0 +1,355 @@
+<!-- This file is provided as a reference for writing config files
+It does NOT represent any particular device and will NOT work on
+real hardware. You must create a file with the correct settings for
+your hardware, and the comments here will explain the layout of this
+file and expected content.
+On the target device this file must be located in /system/etc and named
+audio.<device>.xml, where <device> is the string returned by the system
+property ro.product.device
+-->
+
+<audiohal>
+
+    <!-- mixer element _must_ appear before any of the other definitions.
+    The ALSA card can be identified either by card number or by name.
+    Connect to ALSA card 0:
+        <mixer card="0">
+    Connect to ALSA card called "FooSound"
+        <mixer name="FooSound">
+    When the card is given by name, TinyHAL searches all /proc/asound/card*/id
+    files for a matching name.
+    -->
+        <mixer card="0"> <!-- <mixer name="sdm845" > -->
+
+        <!-- A pre_init element lists control settings that will cause new ALSA
+        controls to be added. Typically this is used to load firmware into a
+        DSP, causing new ALSA controls to be added for controls exported by the
+        firmware. After processing a pre_init element the ALSA controls are
+        reloaded to pick up any new controls. Other elements in the
+        configuration can then use those controls.
+        Multiple pre_init elements can be used, so that a pre_init can depend
+        on controls populated by a previous pre_init.
+        All pre_init elements must appear before the init element.
+        -->
+
+        <pre_init>
+            <!-- A list of ctl elements - see description of init element -->
+            <!-- <ctl name="DSP1 Preload Switch" val="1" /> -->
+        </pre_init>
+
+        <!-- An init element lists control settings required to initialize the
+        hardware and driver. These settings are applied only once when the
+        library is first loaded during boot.
+        -->
+
+        <init>
+
+            <!-- A sequence of ctl elements. Each entry sets a mixer
+            control to a given value. The entries are applied in the
+            order they are listed here.
+            Each entry _must_ have these attributes
+                name - name of the ALSA mixer control
+                val  - value to set it to
+            It can also have an index attribute giving the numeric index
+            of the control value to set. This is used where a control
+            has multiple value slots (for example a volume control
+            with two values, one for left channel and one for right), If
+            an index attribute is not given the content of the val attribute
+            will be applied to all value slots of the control.
+            The numbers in val and index attributes can be given in either
+            decimal, or hex (hex is prefixed with 0x). For a control with
+            enumerated values the val attribute must be a string
+            BYTE ARRAYS: for controls that are a byte array val must be
+            a string of comma-separated byte values. This can be shorter
+            than the total size of the control, combined with the
+            optional index attribute this allows any subset of the byte
+            array to be changed. Alternatively, a file attribute can be given
+            instead of the val attribute, and the raw byte content of the file
+            will be copied into the control. Note that the bytes in the file
+            must already be correctly formatted for writing into the ALSA
+            control. The file is read once when TinyHAL starts and this
+            cached content is used every time this <ctl> element is invoked.
+            -->
+
+            <ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" val="1" />
+            <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia2" val="1" />
+            <ctl name="MultiMedia3 Mixer SLIMBUS_0_TX" val="1" />
+            <ctl name="AIF1_CAP Mixer SLIM TX7" val="1" />
+            <ctl name="CDC_IF TX7 MUX" val="DEC7" />
+            <ctl name="SLIM RX0 MUX" val="AIF1_PB" />
+            <ctl name="SLIM RX1 MUX" val="AIF1_PB" />
+            <ctl name="SLIM RX2 MUX" val="AIF1_PB" />
+            <ctl name="SLIM RX3 MUX" val="AIF1_PB" />
+            <ctl name="SLIM RX4 MUX" val="ZERO" />
+            <ctl name="SLIM RX5 MUX" val="ZERO" />
+            <ctl name="SLIM RX6 MUX" val="ZERO" />
+            <ctl name="SLIM RX7 MUX" val="ZERO" />
+            <ctl name="RX INT7_1 MIX1 INP0" val="RX0" />
+            <ctl name="RX INT8_1 MIX1 INP0" val="RX1" />
+            <ctl name="RX INT1_2 MUX" val="RX0" />
+            <ctl name="RX INT2_2 MUX" val="RX1" />
+
+
+        </init>
+        </mixer>
+
+<!-- Next you must list all the devices supported by the hardware. The
+name attribute of the <device> element identifies the device. These names are
+recognized:
+    "global"        dummy global device - see explanation below
+    "speaker"       AUDIO_DEVICE_OUT_SPEAKER
+    "earpiece"      AUDIO_DEVICE_OUT_EARPIECE
+    "headset"       AUDIO_DEVICE_OUT_WIRED_HEADSET
+    "headset_in"    AUDIO_DEVICE_IN_WIRED_HEADSET
+    "headphone"     AUDIO_DEVICE_OUT_WIRED_HEADPHONE
+    "sco"           AUDIO_DEVICE_OUT_ALL_SCO
+    "sco_in"        AUDIO_DEVICE_IN_ALL_SCO
+    "a2dp"          AUDIO_DEVICE_OUT_ALL_A2DP
+    "usb"           AUDIO_DEVICE_OUT_ALL_USB
+    "mic"           AUDIO_DEVICE_IN_BUILTIN_MIC
+    "back mic"      AUDIO_DEVICE_IN_BACK_MIC
+    "voice"         AUDIO_DEVICE_IN_VOICE_CALL
+    "aux"           AUDIO_DEVICE_IN_AUX_DIGITAL
+Within the <device> element you can declare a number of "paths", each path
+defines a group of control settings to be applied. Each path is identified by
+a name. The "on" and "off" paths are special and list a global enable and
+disable setting for the device. Use of devices is reference-counted, when
+routing of a stream is changed to use a device that is currently disabled its
+"on" path will be applied. When no streams are using a device its "off"
+path will be applied.
+Other paths are user-defined and you can give them any name you choose.
+They are used to apply custom paths when required by a stream and will
+be used only when a stream is connected to or disconnected from a
+device if the <stream> element has an <enable> or <disable> element requesting
+that path.
+It is not mandatory to provide paths. You only need to define paths
+if there are specific control settings that must be applied. So for example
+if no controls need be applied to enable or disable a device then you
+do not need to define the "on" and "off" paths.
+The <ctl> elements within each path have the same format and behaviour
+as described under <mixer><init>.
+The "global" device is a special device the represents the audio system as a
+whole and is used to invoke mixer settings that are independent of any real
+device and which apply globally to the audio system. A stream is automatically
+connected to "global" when it is opened and disconnected when it is closed.
+The behaviour is identical to the way paths are invoked in any other <device>
+entry so the effect is
+    - the "on" path will be applied when a stream is opened and there are
+        no other streams already open. As an example this could be used to
+        bring the audio hardware out of a standby state
+    - the "off" path will be applied when the last open stream is closed.
+        As an example this could be used to put the audio hardware into a
+        standby state
+    - the custom paths will be applied when the stream that requests them
+        is opened or closed.
+-->
+
+        <device name="speaker">
+            <path name="on">
+                <!-- List of ctl element for control values to apply
+                when this device is enabled -->
+                <!-- <ctl name="Amp DSP Switch" val="1"/> -->
+            </path>
+
+            <path name="off">
+                <!-- List of ctl element for control values to apply
+                when this device is disabled -->
+                <!-- <ctl name="Amp DSP Switch" val="0"/> -->
+            </path>
+
+            <!-- Following paths are user-defined and are applied when a
+            <stream> elements' routing is changed to add or remove this
+            device. If the path name matches the name given in the <stream>
+            element it will be applied. A stream could be routed to multiple
+            inputs or outputs - the paths for connecting and disconnecting
+            a stream to a device must therefore have the same name in each
+            <device>.
+            It is not mandatory to declare custom paths - depending on your
+            hardware there may not be any specific action required to route
+            a stream to a particular device. Also you do not have to define
+            the path in every device, only the devices where some action must
+            be taken to connect or disconnect a stream.
+            For this example four custom paths are defined:
+                pcm_out_en = control setting to connect PCM output to this device
+                pcm_out_dis = control setting to disconnect PCM output from this device
+            -->
+
+            <path name="pcm_out_en">
+                <ctl name="I2S RX0 MUX" val="AIF1_PB" />
+                <ctl name="MI2S_RX Channels" val="One" />
+                <ctl name="CDC_IF RX0 MUX" val="I2S RX0" />
+                <ctl name="RX INT8_1 MIX1 INP0" val="RX0" />
+                <ctl name="COMP8 Switch" val="1" />
+                <ctl name="SpkrRight COMP Switch" val="1" />
+                <ctl name="SpkrRight BOOST Switch" val="1" />
+                <ctl name="SpkrRight VISENSE Switch" val="1" />
+                <ctl name="SpkrRight SWR DAC_Port Switch" val="1" />
+            </path>
+            <path name="pcm_out_dis">
+            </path>
+        </device>
+
+        <device name="headphone">
+            <!-- <path name="on">
+                <ctl name="SLIM RX2 MUX" val="AIF1_PB"/>
+                <ctl name="SLIM RX3 MUX" val="AIF1_PB"/>
+                <ctl name="RX INT1 DEM MUX" val="CLSH_DSM_OUT"/>
+                <ctl name="RX INT2 DEM MUX" val="CLSH_DSM_OUT"/>
+                <ctl name="RX INT1_1 MIX1 INP0" val="RX2"/>
+                <ctl name="RX INT2_1 MIX1 INP0" val="RX3"/>
+                <ctl name="RX INT1_1 INTERP" val="RX INT1_1 MI"/>
+                <ctl name="RX INT2_1 INTERP" val="RX INT2_1 MI"/>
+                <ctl name="RX0 Digital Volume" val="0"/>
+                <ctl name="RX1 Digital Volume" val="80"/>
+                <ctl name="RX2 Digital Volume" val="80"/>
+            </path>
+
+            <path name="off">
+                <ctl name="SLIM RX2 MUX" val="ZERO"/>
+                <ctl name="SLIM RX3 MUX" val="ZERO"/>
+                <ctl name="RX INT1 DEM MUX" val="ZERO"/>
+                <ctl name="RX INT2 DEM MUX" val="ZERO"/>
+                <ctl name="RX INT1_1 MIX1 INP0" val="ZERO"/>
+                <ctl name="RX INT2_1 MIX1 INP0" val="ZERO"/>
+                <ctl name="RX INT1_1 INTERP" val="ZERO"/>
+                <ctl name="RX INT2_1 INTERP" val="ZERO"/>
+                <ctl name="RX1 Digital Volume" val="0"/>
+                <ctl name="RX2 Digital Volume" val="0"/>
+            </path> -->
+
+
+            <path name="pcm_out_en">
+                <ctl name="SLIM RX2 MUX" val="AIF4_PB" />
+                <ctl name="SLIM RX3 MUX" val="AIF4_PB" />
+                <ctl name="RX INT1_2 MUX" val="RX2" />
+                <ctl name="RX INT2_2 MUX" val="RX3" />
+            </path>
+
+            <path name="pcm_out_dis">
+                <ctl name="SLIM RX2 MUX" val="ZERO" />
+                <ctl name="SLIM RX3 MUX" val="ZERO" />
+                <ctl name="RX INT1_2 MUX" val="ZERO" />
+                <ctl name="RX INT2_2 MUX" val="ZERO" />
+            </path>
+        </device>
+
+<!-- Following the device definitions there must be a <stream> entry
+for every output and input stream supported by the hardware. It is also
+possible to define a 'global' stream that is not associated with any particular
+audio input or output but instead can be used to handle actions that are
+global to the audio hardware.
+There are two types of stream that can be declared here:
+- anonymous streams, these will be used to supply playback and record
+    streams for AudioFlinger
+- named streams, which are mainly used to declare custom streams to handle
+    special routing use-cases that are external to the normal Android audio
+    path - typically where the audio is routed entirely in hardware without
+    being passed through Android, for example the baseband audio link or
+    FM radio.
+    The global stream is a special case of a named stream and must have the
+    name "global"
+For standard anonymous streams there are two that would normally be on
+any device: PCM input and PCM output. It is also possible to declare a stream
+as "compress" - this is intended for cases where a playback stream is
+decompressed in hardware, or a record stream provides raw compressed data that
+must be decompressed in software.
+Named streams can be declared as type "hw", to represent a hardware-hardware
+link.
+The "global" named stream can be used to handle events that are not specific
+to any particular stream. Typically this is used to implement usecase handlers
+(see below) to handle set_parameter messages sent to the HAL's global
+(struct audio_device*)->hw_device.set_parameters function (for example, the
+"orientation" parameter that is sent by Android.)
+Mandatory attributes for PCM and compressed streams:
+    type    must be "pcm" or "compress"
+    dir     direction of stream, either "in" (recording) or "out" (playback)
+Mandatory for named streams:
+    type    must be "pcm", "compress" or "hw"
+    dir     direction of stream, either "in" (recording) or "out" (playback)
+    name    a custom name for a named stream. The name you choose here must
+                match the name your HAL will use to request this stream
+Mandatory for hw streams:
+    type    must be "hw"
+    dir     direction of stream, either "in" (recording) or "out" (playback)
+    name    a custom name for the stream (hw streams must be named streams)
+Mandatory for the global stream:
+    type    must be "hw"
+    name    must be "global"
+Optional attributes:
+    card    ALSA card number. If not given this defaults to 0
+    device  ALSA device number. If not given this defaults to 0
+    instances   limits the maximum number of instances of this stream, if not
+                specified the number of instances is unlimited
+    name    a custom name for a named stream. The name you choose here must
+                match the name your HAL will use to request this stream
+Anonymous PCM streams should not normally have an instance limit.
+TinyHAL defines a specific named stream:
+"voice recognition" - a PCM or compressed stream for voice recognition input.
+                      If a stream with this name is not defined TinyHAL will
+                      use the normal PCM input stream for voice recognition audio.
+-->
+
+    <stream type="pcm" dir="out" card="0" device="0">
+        <!-- The <enable> and <disable> tags give the name of a path
+        to apply for each connected device when the stream is either connected
+        to (enable) or disconnected from (disable) that device.
+        The way this works is that when stream routing changes, the HAL will
+        look through the paths of each device this stream is connected to,
+            - for each device the stream is being disconnected from, if it
+                contains a path matching the path name in <disable>, that path
+                will be applied.
+            - for each device the stream is being connected to, if it
+                contains a path matching the path name in <enable>, that path
+                will be applied.
+        -->
+        <enable path="pcm_out_en"/>
+        <disable path="pcm_out_dis"/>
+
+        <!-- The optional usecase block allows you to define custom use-cases that
+        are triggered by set_parameter() calls to the HAL. The set_parameter()
+        is a string of the form <setting>=<value>. The HAL will search for a
+        usecase block whose name attribute matches <setting> and within that
+        a case block whose name attribute matches <value>. If a matching case
+        block is found the enclosed <ctl> blocks will be applied.
+        The example below defines a use case for switching a codec algorithm
+        between wideband and narrowband response. The two cases will be
+        triggered by a set_parameter() of "bandwidth=narrow" or "bandwidth=wide".
+        -->
+        <!-- <usecase name="bandwidth">
+            <case name="narrow">
+                <ctl name="Codec Wideband" val="0" />
+            </case>
+            <case name="wide">
+                <ctl name="Codec Wideband" val="1" />
+            </case>
+        </usecase> -->
+
+        <!-- Constant values. These allow setting named values that can
+        be read by the audio HAL at runtime. Values are 32-bit unsigned.
+        This is useful for setting HAL-specific or hardware-specific
+        information.
+        The names have no meaning to the config manager, and are
+        entirely defined by the audio HAL.
+        If you want to set constants that are global, rather than part
+        of a stream, define a hw stream called "global".
+        to hold the values.
+        -->
+        <!-- <set name="foo" val="42"/> -->
+
+    </stream>
+
+    <stream type="pcm" dir="out" card="0" device="1">
+    </stream>
+
+    <!-- Example named stream, in this case for an FM radio path . This will not
+    be available for standard AudioFlinger playback and record paths. It must
+    be explicitly requested by the audio HAL when FM radio is enabled
+    -->
+    <!-- control paths to be enabled when this stream is enabled or disabled -->
+    <!-- <stream name="FM radio" type="pcm" dir="in" card="0" device="0">
+        
+        <enable path="fm_radio_en"/>
+        <disable path="fm_radio_dis"/>
+    </stream> -->
+
+</audiohal>
