@@ -148,10 +148,10 @@ PRODUCT_COPY_FILES +=  \
         device/linaro/dragonboard/etc/permissions/android.software.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.xml
 
 # Memtrack
-PRODUCT_PACKAGES += \
-    memtrack.default \
-    android.hardware.memtrack@1.0-service \
-    android.hardware.memtrack@1.0-impl
+# PRODUCT_PACKAGES += \
+#     memtrack.default \
+#     android.hardware.memtrack@1.0-service \
+#     android.hardware.memtrack@1.0-impl
 
 # Keymaster
 PRODUCT_PACKAGES += \
