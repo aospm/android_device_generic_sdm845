@@ -95,7 +95,8 @@ static std::string findFirstFFDevice() {
 status_t registerVibratorService() {
     std::string hapticsDev = findFirstFFDevice();
     if (hapticsDev.length() < 2)
-        return UNKNOWN_ERROR;
+        ALOGE("Couldn't find a haptics device, stubbing HAL to prevent"
+              " boot failing");
     sp<IVibrator> vibrator = new Vibrator(hapticsDev);
 
     return vibrator->registerAsService();

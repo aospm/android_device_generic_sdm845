@@ -90,6 +90,11 @@ private:
 	std::string mInputDevPath;
 	int mfd;
 	int mActiveEffectId;
+	// If the haptics device path is invalid
+	// the just stub all behaviour. Otherwise
+	// the device will fail to boot because the haptics
+	// service keeps crashing.
+	bool mIsStub;
 	// Look up table of effects by type and strength
 	std::map<int, struct ff_effect> mEffects;
 

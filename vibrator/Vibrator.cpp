@@ -59,6 +59,10 @@ Vibrator::Vibrator(std::string devpath) :
 {
 	// We just keep the input device open the whole time we're running.
 	// Closing / reopening it seems to break things.
+	if (mInputDevPath.length() < 2) {
+		mIsStub = true;
+		return;
+	}
 	mfd = openInputDev();
 	if (mfd < 0) {
 		ALOGE("%s() can't open FF input device %s", __func__, mInputDevPath.c_str());
@@ -93,11 +97,15 @@ Vibrator::Vibrator(std::string devpath) :
 }
 
 int Vibrator::openInputDev() {
+	if (mIsStub)
+		return 0;
 	return open(mInputDevPath.c_str(), O_RDWR|O_CLOEXEC);
 }
 
 void Vibrator::uploadEffectToKernel(struct ff_effect* effect) {
 	int ret;
+	if (mIsStub)
+		return;
 	
 	ret = ioctl(mfd, EVIOCSFF, effect);
 	if (ret < 0) {
@@ -107,6 +115,8 @@ void Vibrator::uploadEffectToKernel(struct ff_effect* effect) {
 
 void Vibrator::deleteEffectFromKernel(struct ff_effect* effect) { // Unload rumble effect
 	int ret;
+	if (mIsStub)
+		return;
 	
 	ret = ioctl(mfd, EVIOCRMFF, effect);
 	if (ret < 0) {
@@ -119,6 +129,8 @@ void Vibrator::deleteEffectFromKernel(struct ff_effect* effect) { // Unload rumb
 // Methods from ::android::hardware::vibrator::V1_1::IVibrator follow.
 Return<Status> Vibrator::on(uint32_t timeoutMs) {
 	struct ff_effect* effect;
+	if (mIsStub)
+		return Status::OK;
 	// If the active effect is set, use it instead of the default
 	if (mActiveEffectId < 0) {
 		effect = &mEffects[DEFAULT_EFFECT_ID];
@@ -151,6 +163,8 @@ Return<Status> Vibrator::off()  {
 	ALOGV("%s", __func__);
 	struct input_event stop;
 	struct ff_effect* effect;
+	if (mIsStub)
+		return Status::OK;
 	// If the active effect is set, use it instead of the default
 	if (mActiveEffectId < 0) {
 		ALOGV("%s() no active effect, stopping default", __func__);
@@ -211,6 +225,8 @@ Return<void> Vibrator::performEffect(Effect effect, EffectStrength strength,
 	Status status = Status::OK;
 	uint32_t timeMs = 9;
 	bool doubleClick = effect == Effect::DOUBLE_CLICK;
+	if (mIsStub)
+		return Void();
 
 	ALOGV("%s() effect = %d, strength = %d", __func__, effect, (int)strength);
 
