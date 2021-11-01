@@ -58,14 +58,12 @@ make -j$nproc
         device build. I extracted mine from
         lineage-16.0-20190612-nightly-beryllium-signed.zip ;)
 
-        OnePlus 6 firmware can be obtained here: https://gitlab.com/sdm845-mainline/firmware-oneplus-sdm845, copy the contents
-        of the postmarketos subdirectory up a level.
-        It will need to be supplemented by a630_sqe.fw from
-        linux-firmware.
+        OnePlus 6 firmware can be obtained here: https://gitlab.com/sdm845-mainline/firmware-oneplus-sdm845/-/tree/aosp
+        Make sure you clone the aosp branch.
 
-        Then copy the binaries to out vendor directory
-        i.e. out/target/product/beryllium/vendor/firmware,
-        and run "make -j$nproc" to create vendor.img again.
+        Copy the contents to `out/target/product/sdm845/vendor/firmware`
+        (adjust sdm845 to your lunch target) and run "make -j$nproc" to#
+        create vendor.img again.
 
 * Flash and boot AOSP images -->
 
@@ -78,6 +76,13 @@ fastboot reboot
 ```
 
 # How to run custom kernels?
+
+These steps only work for android-mainline kernels which android build files included. You may also want to build your own kernels manually and copy the output.
+After building your kernel, do:
+```
+make <make flags> INSTALL_MOD_PATH=modules modules_install
+```
+Then see [this gist](https://gist.github.com/calebccff/9444e896d8befeb0f9a772d28480d38d) for an example script to copy kernel build output.
 
 * Run following commands to clone the kernel source and
   prebuilt Android toolchains and build scripts:
