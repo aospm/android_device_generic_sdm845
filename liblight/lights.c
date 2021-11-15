@@ -16,14 +16,12 @@
  * limitations under the License.
  */
 
-
-// #define LOG_NDEBUG 0
-
 #include <log/log.h>
 #include <cutils/properties.h>
 
 #include <dirent.h>
 #include <fcntl.h>
+#include <linux/limits.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -38,45 +36,16 @@
 
 #include <hardware/lights.h>
 
-#define CG_COLOR_ID_PROPERTY "ro.boot.hardware.color"
-
-/******************************************************************************/
-static pthread_once_t g_init = PTHREAD_ONCE_INIT;
-static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
-static int rgb_brightness_ratio = 255;
-
-char const*const BACKLIGHT_CLASS
-        = "/sys/class/backlight";
-char const*const BACKLIGHT_CLASS_FSTRING
-        = "/sys/class/backlight/%s/brightness";
+#define BACKLIGHT_CLASS "/sys/class/backlight"
+#define BACKLIGHT_CLASS_FSTRING "/sys/class/backlight/%s/brightness"
 
 /**
  * device methods
  */
 
-void init_globals(void)
-{
-    char color_id_prop[PROPERTY_VALUE_MAX] = {""};
-
-    // init the mutex
-    pthread_mutex_init(&g_lock, NULL);
-
-    // check CG color
-    property_get(CG_COLOR_ID_PROPERTY, color_id_prop, "DEF00");
-    if (strcmp(color_id_prop, "GRA00") == 0) {
-        rgb_brightness_ratio = 25;
-    } else if (strcmp(color_id_prop, "SLV00") == 0) {
-        rgb_brightness_ratio = 15;
-    } else if (strcmp(color_id_prop, "BLU00") == 0) {
-        rgb_brightness_ratio = 15;
-    } else {
-        rgb_brightness_ratio = 20;
-    }
-}
-
 static bool findFirstBacklightDevice(char *filename) {
     struct dirent *de;
-    DIR *dir = opendir("/sys/class/backlight");
+    DIR *dir = opendir(BACKLIGHT_CLASS);
     if (dir == NULL)
         return NULL;
     while((de = readdir(dir))) {
@@ -96,14 +65,15 @@ static int
 write_brightness(int value)
 {
     int fd;
-    char brightness_path[4096];
-    char filename[256];
+    char brightness_path[PATH_MAX];
+    char filename[NAME_MAX];
     if (!findFirstBacklightDevice(filename)) {
-        ALOGE("CA:: Couldn't find backlight brightness path");
+        ALOGE("Couldn't find backlight brightness path");
         return -EINVAL;
     }
 
-    snprintf(brightness_path, 4096, BACKLIGHT_CLASS_FSTRING, filename);
+    ALOGI("Opening backlight device: %s", filename);
+    snprintf(brightness_path, PATH_MAX, BACKLIGHT_CLASS_FSTRING, filename);
     fd = open(brightness_path, O_WRONLY);
     if (fd >= 0) {
         char buffer[20];
@@ -139,7 +109,7 @@ set_light_backlight(struct light_device_t* dev,
         return -1;
     }
 
-    int brightness = rgb_to_brightness(state) << 4; // Scale up to 4095
+    int brightness = rgb_to_brightness(state) << 2; // Scale up to 1020
     write_brightness(brightness);
 
     return 0;
@@ -155,9 +125,6 @@ close_lights(struct light_device_t *dev)
     return 0;
 }
 
-
-/******************************************************************************/
-
 /**
  * module methods
  */
@@ -167,7 +134,6 @@ static int open_lights(const struct hw_module_t* module, char const* name,
         struct hw_device_t** device)
 {
     (void)name;
-    pthread_once(&g_init, init_globals);
 
     struct light_device_t *dev = malloc(sizeof(struct light_device_t));
 
