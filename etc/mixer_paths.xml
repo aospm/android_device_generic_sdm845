@@ -102,5 +102,6 @@ tinymix2 set "SLIM RX2 MUX" "AIF4_PB"
 tinymix2 set "SLIM RX3 MUX" "AIF4_PB"
 tinymix2 set "RX INT1_2 MUX" "RX2"
 tinymix2 set "RX INT2_2 MUX" "RX3"
+tinyplay2 -D 0 -d 1 /data/file_example_WAV_1MG.wav
 
 -->

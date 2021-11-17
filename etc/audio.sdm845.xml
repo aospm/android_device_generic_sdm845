@@ -219,10 +219,10 @@ entry so the effect is
 
 
             <path name="pcm_out_en">
-                <!-- <ctl name="SLIM RX2 MUX" val="AIF4_PB" />
+                <ctl name="SLIM RX2 MUX" val="AIF4_PB" />
                 <ctl name="SLIM RX3 MUX" val="AIF4_PB" />
                 <ctl name="RX INT1_2 MUX" val="RX2" />
-                <ctl name="RX INT2_2 MUX" val="RX3" /> -->
+                <ctl name="RX INT2_2 MUX" val="RX3" />
             </path>
 
             <path name="pcm_out_dis">
