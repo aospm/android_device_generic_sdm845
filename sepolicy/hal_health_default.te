@@ -1,0 +1,5 @@
+
+allow hal_health_default sysfs_power:file { read open write getattr };
+allow hal_health_default sysfs:file { read open write };
+allow hal_health_default sysfs_power:lnk_file { read };
+allow hal_health_default sysfs_power:dir { open search read };

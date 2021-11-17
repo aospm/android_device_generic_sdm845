@@ -1,14 +1,16 @@
-/dev/block/platform/soc@0/1d84000\.ufshc/by-name/fsc		u:object_r:modem_block_device:s0
-/dev/block/platform/soc@0/1d84000\.ufshc/by-name/fsg		u:object_r:modem_block_device:s0
-/dev/block/platform/soc@0/1d84000\.ufshc/by-name/modemst[12]	u:object_r:modem_block_device:s0
-/dev/block/platform/soc@0/1d84000\.ufshc/by-name/userdata	u:object_r:userdata_block_device:s0
+/dev/block/platform/soc@0/1d84000\.ufshc/by-name/fsc					u:object_r:modem_block_device:s0
+/dev/block/platform/soc@0/1d84000\.ufshc/by-name/fsg					u:object_r:modem_block_device:s0
+/dev/block/platform/soc@0/1d84000\.ufshc/by-name/modemst[12]				u:object_r:modem_block_device:s0
+/dev/block/platform/soc@0/1d84000\.ufshc/by-name/userdata				u:object_r:userdata_block_device:s0
 
-/dev/dri				u:object_r:dri_device:s0
-/dev/dri/card0				u:object_r:graphics_device:s0
-/dev/dri/renderD128			u:object_r:gpu_device:s0
-/dev/input/.*               u:object_r:input_device:s0
-/dev/qcom_rmtfs_mem1			u:object_r:rmtfs_device:s0
-/dev/ttyMSM0				u:object_r:console_device:s0
+/dev/dri										u:object_r:dri_device:s0
+/dev/dri/card0										u:object_r:graphics_device:s0
+/dev/dri/renderD128									u:object_r:gpu_device:s0
+/dev/input/.*										u:object_r:input_device:s0
+/dev/qcom_rmtfs_mem1									u:object_r:rmtfs_device:s0
+/dev/ttyMSM0										u:object_r:console_device:s0
+
+/sys/(/.*)?										u:object_r:sysfs:s0
 
 /sys/bus/platform/drivers/qcom-q6v5-mss							u:object_r:sysfs_mss:s0
 /sys/devices/platform/f6301000.memory/rmtfs						u:object_r:sysfs_rmtfs:s0
@@ -17,7 +19,9 @@
 /sys/devices/platform/soc@0/ae00000.mdss						u:object_r:sysfs_gpu:s0
 /sys/devices/platform/soc@0/c440000.spmi/spmi-0/0-00/c440000.spmi:pmic@0:rtc@6000/rtc	u:object_r:sysfs_rtc:s0
 
-/sys/class/backlight(/.*)?									u:object_r:sysfs_lights:s0
+/sys/class/backlight(/.*)?								u:object_r:sysfs_lights:s0
+
+/sys/class/power_supply(/.*)?								u:object_r:sysfs_power:s0
 
 /sys/class/remoteproc									u:object_r:sysfs_remoteproc:s0
 /sys/devices/platform/remoteproc-adsp/remoteproc					u:object_r:sysfs_remoteproc:s0
@@ -31,7 +35,7 @@
 
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software			u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_msm		u:object_r:hal_graphics_allocator_default_exec:s0
-/vendor/bin/hw/android\.hardware\.vibrator@1\.1-service\.sdm845		u:object_r:hal_vibrator_default_exec:s0
+/vendor/bin/hw/android\.hardware\.vibrator@1\.1-service\.sdm845				u:object_r:hal_vibrator_default_exec:s0
 /vendor/bin/hw/android\.hardware\.light@2\.0-service					u:object_r:hal_light_default_exec:s0
 /vendor/bin/pd-mapper									u:object_r:pd_mapper_exec:s0
 /vendor/bin/qrtr-cfg									u:object_r:qrtr_exec:s0
