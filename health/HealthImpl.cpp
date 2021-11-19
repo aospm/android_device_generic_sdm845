@@ -35,7 +35,7 @@ class HealthImpl : public Health {
     // Return<void> getCurrentAverage(getCurrentAverage_cb _hidl_cb) override;
     // Return<void> getCapacity(getCapacity_cb _hidl_cb) override;
     // Return<void> getEnergyCounter(getEnergyCounter_cb _hidl_cb) override;
-    //Return<void> getChargeStatus(getChargeStatus_cb _hidl_cb) override;
+    // Return<void> getChargeStatus(getChargeStatus_cb _hidl_cb) override;
     // Return<void> getStorageInfo(getStorageInfo_cb _hidl_cb) override;
     // Return<void> getDiskStats(getDiskStats_cb _hidl_cb) override;
     // Return<void> getHealthInfo(getHealthInfo_cb _hidl_cb) override;
@@ -52,28 +52,35 @@ class HealthImpl : public Health {
     // void UpdateHealthInfo(HealthInfo* health_info) override;
 };
 
+// Return<void> HealthImpl::getChargeStatus(getChargeStatus_cb _hidl_cb) {
+//     std::string statusPath = "/sys/class/power_supply/usb"
+//     getHealthInfo_2_1([&](auto res, const auto& health_info) {
+
+//         _hidl_cb(res, health_info);
+
+//     });
+
+//     return Void();
+// }
+
 }  // namespace implementation
 }  // namespace V2_1
 }  // namespace health
 }  // namespace hardware
 }  // namespace android
 
-void healthd_board_init(healthd_config *config) {
-        // The battery doesn't expose it's status, only the charger does.
-        config->batteryStatusPath = "/sys/class/power_supply/usb/status";
-}
-
 extern "C" IHealth* HIDL_FETCH_IHealth(const char* instance) {
     using ::android::hardware::health::V2_1::implementation::HealthImpl;
+    ALOGI("Instance is %s", instance);
     if (instance != "default") {
         return nullptr;
     }
+    ALOGI("Before InitHealthdConfig()");
     auto config = std::make_unique<healthd_config>();
     InitHealthdConfig(config.get());
+    config->batteryStatusPath = "/sys/class/power_supply/usb/status";
 
-    healthd_board_init(config.get());
-
-    ALOGI("CA: Creating Health HAL 2.1, status path = %s", config->batteryStatusPath.c_str());
+    ALOGI("CA: HAL 2.1!!!! health, status path = %s", config->batteryStatusPath.c_str());
 
     return new HealthImpl(std::move(config));
 }

@@ -1,10 +1,10 @@
 cc_library_shared {
     name: "android.hardware.health@2.1-impl-sdm845",
-    stem: "android.hardware.health@2.0-impl-2.1-sdm845",
+    //stem: "android.hardware.health@2.1-impl-2.1-sdm845",
 
     // Install to vendor and recovery.
     vendor: true,
-    recovery_available: true,
+    //recovery_available: true,
 
     relative_install_path: "hw",
 
