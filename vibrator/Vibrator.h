@@ -36,24 +36,30 @@
 /* Test the bit with given index=offset in an unsigned char array */
 #define testBit(bit, array)    ((array[ucharIndexForBit(bit)] >> bitOffsetInUchar(bit)) & 1)
 
-/*
+/**
  * Builder for ff_effect struct.
  * We don't bother using weak_magnitude here as most hardware
  * doesn't have any way to differentiate strong / weak haptics
-  */
-#define FF_EFFECT(rumbleStrenth) 						\
-	{													\
-		.type = FF_RUMBLE, 								\
-		.id = -1, 										\
-		.direction = 0, 								\
-		.trigger = { .button = 0, .interval = 0, },		\
-		.replay = { .length = 0, .delay = 0, },			\
-		.u = {											\
-			.rumble = {									\
-				.strong_magnitude = rumbleStrenth,		\
-				.weak_magnitude = 0,					\
-			},											\
-		},												\
+ */
+#define FF_EFFECT(rumbleStrenth)		\
+	{					\
+		.type = FF_RUMBLE,		\
+		.id = -1,			\
+		.direction = 0,			\
+		.trigger = {			\
+			.button = 0,		\
+			.interval = 0,		\
+		},				\
+		.replay = {			\
+			.length = 0,		\
+			.delay = 0,		\
+		},				\
+		.u = {				\
+			.rumble = {		\
+			.strong_magnitude = rumbleStrenth, \
+			.weak_magnitude = 0,	\
+			},			\
+		},				\
 	}
 
 namespace android {

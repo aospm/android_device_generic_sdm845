@@ -45,10 +45,16 @@ using Status = ::android::hardware::vibrator::V1_0::Status;
 using EffectStrength = ::android::hardware::vibrator::V1_0::EffectStrength;
 using Effect = ::android::hardware::vibrator::V1_1::Effect_1_1;
 
-// These have to be kept in line with HAL version
+/*
+ * These have to be kept in line with HAL version
+ */
 static constexpr Effect MAX_EFFECT = Effect::TICK;
 static constexpr EffectStrength MAX_EFFECT_STRENGTH = EffectStrength::STRONG;
 
+/**
+ * Helper to index effects in the mEffects map.
+ * from their strength and effect type.
+ */
 #define EFFECT_INDEX(effect, strength) \
 	((uint16_t)effect * (uint16_t)MAX_EFFECT_STRENGTH + (uint16_t)strength)
 
@@ -225,12 +231,10 @@ Return<void> Vibrator::performEffect(Effect effect, EffectStrength strength,
 	Status status = Status::OK;
 	uint32_t timeMs = 9;
 	bool doubleClick = effect == Effect::DOUBLE_CLICK;
-	if (mIsStub)
-		return Void();
 
 	ALOGV("%s() effect = %d, strength = %d", __func__, effect, (int)strength);
 
-	if (effect > MAX_EFFECT){
+	if (effect > MAX_EFFECT || mIsStub){
 		_hidl_cb(Status::UNSUPPORTED_OPERATION, 0);
 		return Void();
 	}
