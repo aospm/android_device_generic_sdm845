@@ -183,7 +183,7 @@ PRODUCT_PACKAGES += \
 
 # Haptics
 PRODUCT_PACKAGES += \
-    android.hardware.vibrator@1.1-service.sdm845
+    android.hardware.vibrator@1.1-service.ff
 
 # Copy standard platform config files
 PRODUCT_COPY_FILES +=  \
