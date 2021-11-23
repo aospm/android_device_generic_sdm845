@@ -117,6 +117,30 @@ make TARGET_KERNEL_USE=mainline -j$nproc
         If you want to reproduce android12-5.4 or GKI build then checkout
         common-android12-5.4 repo manifest and beryllium-android-5.4 branch instead.
 
+## Debugging boot failures
+
+If the latest AOSP manifests don't boot for you, I (try to) maintain a known-booting manifest for AOSP builds with fixed SHA's for each project, try the following:
+
+```sh
+# First save the current broken manifest for later debugging
+repo manifest -r -o upstream-broken-manifest.xml
+# Check out the known-booting manifest
+pushd .repo/manifests
+git remote add aospm https://github.com/aospm/platform_manifest.git
+git fetch aospm
+git checkout aospm/aospm/booting
+popd
+repo init -m aospm-booting.xml
+repo sync -j4
+```
+
+Then try and build again, if that fixes your build you can start to narrow down the problem by generating a diff between the booting manifest and the upstream one
+
+```sh
+diff .repo/manifests/aospm-booting.xml upstream-broken-manifest.xml
+```
+
+
 # ToDo -->
 * LEDs and Brightness Control
 * Camera
