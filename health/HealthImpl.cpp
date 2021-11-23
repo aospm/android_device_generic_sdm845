@@ -6,6 +6,8 @@
 #include <hidl/Status.h>
 #include <log/log.h>
 
+#include <string_view>
+
 using ::android::sp;
 using ::android::hardware::Return;
 using ::android::hardware::Void;
@@ -72,7 +74,7 @@ class HealthImpl : public Health {
 extern "C" IHealth* HIDL_FETCH_IHealth(const char* instance) {
     using ::android::hardware::health::V2_1::implementation::HealthImpl;
     ALOGI("Instance is %s", instance);
-    if (instance != "default") {
+    if (instance != "default"sv) {
         return nullptr;
     }
     ALOGI("Before InitHealthdConfig()");
