@@ -29,19 +29,5 @@ PRODUCT_COPY_FILES := \
     device/generic/sdm845/init.common.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.sdm845.usb.rc \
     device/generic/sdm845/common.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/sdm845.kl
 
-# Build generic Audio HAL
-PRODUCT_PACKAGES := audio.primary.sdm845
-
-# Build generic lights HAL
-PRODUCT_PACKAGES += lights.sdm845
-
-PRODUCT_PACKAGES += \
-    pd-mapper \
-    qrtr-ns \
-    qrtr-cfg \
-    qrtr-lookup \
-    rmtfs \
-    tqftpserv
-
 PRODUCT_COPY_FILES += \
     device/generic/sdm845/qcom/init.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.qcom.rc
