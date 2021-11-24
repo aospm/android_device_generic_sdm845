@@ -185,20 +185,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.1-service.ff
 
-# Build generic Audio HAL
-PRODUCT_PACKAGES := audio.primary.sdm845
-
-# Build generic lights HAL
-PRODUCT_PACKAGES += lights.sdm845
-
-PRODUCT_PACKAGES += \
-    pd-mapper \
-    qrtr-ns \
-    qrtr-cfg \
-    qrtr-lookup \
-    rmtfs \
-    tqftpserv
-
 # Copy standard platform config files
 PRODUCT_COPY_FILES +=  \
     $(LOCAL_PATH)/ueventd.common.rc:$(TARGET_COPY_OUT_VENDOR)/ueventd.rc \
