@@ -165,7 +165,7 @@ PRODUCT_PACKAGES += \
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-service \
-    android.hardware.health@2.1-impl-sdm845 \ # Passthrough implementation
+    android.hardware.health@2.1-impl-gsdm845 \ # Passthrough implementation
 
 # Cuttlefish health
 # PRODUCT_PACKAGES += \

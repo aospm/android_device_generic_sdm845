@@ -1,12 +1,11 @@
 #include <memory>
-#include <string_view>
 
 #include <health/utils.h>
 #include <health2impl/Health.h>
 #include <hidl/Status.h>
 #include <log/log.h>
-
-#include <string_view>
+#include <android-base/strings.h>
+#include <string>
 
 using ::android::sp;
 using ::android::hardware::Return;
@@ -75,6 +74,7 @@ extern "C" IHealth* HIDL_FETCH_IHealth(const char* instance) {
     using ::android::hardware::health::V2_1::implementation::HealthImpl;
     ALOGI("Instance is %s", instance);
     if (instance != "default"sv) {
+        ALOGE("Instance is not supported");
         return nullptr;
     }
     ALOGI("Before InitHealthdConfig()");
