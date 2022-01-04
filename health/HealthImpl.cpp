@@ -53,17 +53,6 @@ class HealthImpl : public Health {
     // void UpdateHealthInfo(HealthInfo* health_info) override;
 };
 
-// Return<void> HealthImpl::getChargeStatus(getChargeStatus_cb _hidl_cb) {
-//     std::string statusPath = "/sys/class/power_supply/usb"
-//     getHealthInfo_2_1([&](auto res, const auto& health_info) {
-
-//         _hidl_cb(res, health_info);
-
-//     });
-
-//     return Void();
-// }
-
 }  // namespace implementation
 }  // namespace V2_1
 }  // namespace health
