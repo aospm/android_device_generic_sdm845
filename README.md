@@ -41,7 +41,7 @@ very handy. Believe me :)
 mkdir aosp-repo
 cd aosp-repo
 repo init -u https://android.googlesource.com/platform/manifest -b master
-git clone https://github.com/pundiramit/android-local-manifests.git .repo/local_manifests -b master
+git clone https://github.com/aospm/android_local_manifests .repo/local_manifests -b main
 repo sync -j$nproc
 source build/envsetup.sh
 # See table above
