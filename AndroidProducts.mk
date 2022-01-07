@@ -10,9 +10,11 @@
 #
 
 PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/axolotl.mk \
     $(LOCAL_DIR)/beryllium.mk \
     $(LOCAL_DIR)/enchilada.mk
 
 COMMON_LUNCH_CHOICES := \
+    axolotl-userdebug \
     beryllium-userdebug \
     enchilada-userdebug

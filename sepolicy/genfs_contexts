@@ -1,3 +1,4 @@
+genfscon sysfs   /devices/platform/88f00000.memory/rmtfs					u:object_r:sysfs_rmtfs:s0 # Axolotl
 genfscon sysfs   /devices/platform/f6301000.memory/rmtfs					u:object_r:sysfs_rmtfs:s0 # Beryllium
 genfscon sysfs   /devices/platform/f5b01000.memory/rmtfs					u:object_r:sysfs_rmtfs:s0 # Enchilada
 genfscon sysfs   /devices/platform/remoteproc-adsp/remoteproc					u:object_r:sysfs_remoteproc:s0
