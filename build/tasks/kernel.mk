@@ -1,4 +1,4 @@
-ifneq ($(filter enchilada beryllium sdm845, $(TARGET_DEVICE)),)
+ifneq ($(filter beryllium enchilada sdm845, $(TARGET_DEVICE)),)
 
 IMAGE_GZ := device/generic/sdm845/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/Image.gz
 DTB := $(wildcard device/generic/sdm845/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/*.dtb)
