@@ -4,7 +4,7 @@ cc_library_shared {
 
     // Install to vendor and recovery.
     proprietary: true,
-    //recovery_available: true,
+    recovery_available: true,
 
     relative_install_path: "hw",
 

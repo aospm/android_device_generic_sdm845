@@ -35,6 +35,9 @@ PRODUCT_PACKAGES := audio.primary.sdm845
 # Build generic lights HAL
 PRODUCT_PACKAGES += lights.sdm845
 
+#fastbootd
+PRODUCT_PACKAGES += fastbootd
+
 PRODUCT_PACKAGES += \
     pd-mapper \
     qrtr-ns \

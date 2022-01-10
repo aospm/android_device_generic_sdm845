@@ -2,6 +2,7 @@
 /dev/block/platform/soc@0/1d84000\.ufshc/by-name/fsg					u:object_r:modem_block_device:s0
 /dev/block/platform/soc@0/1d84000\.ufshc/by-name/modemst[12]				u:object_r:modem_block_device:s0
 /dev/block/platform/soc@0/1d84000\.ufshc/by-name/userdata				u:object_r:userdata_block_device:s0
+/dev/block/platform/soc@0/1d84000\.ufshc/by-name/misc					u:object_r:misc_block_device:s0
 
 /dev/dri										u:object_r:dri_device:s0
 /dev/dri/card0										u:object_r:graphics_device:s0
