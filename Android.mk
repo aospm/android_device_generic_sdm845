@@ -20,7 +20,7 @@
 # to only building on ARM if they include assembly. Individual makefiles
 # are responsible for having their own logic, for fine-grained control.
 
-ifneq ($(filter enchilada beryllium sdm845, $(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter beryllium enchilada sdm845, $(TARGET_DEVICE)),)
 
 LOCAL_PATH := $(call my-dir)
 
