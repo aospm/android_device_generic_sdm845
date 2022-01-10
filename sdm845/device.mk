@@ -21,10 +21,12 @@ PRODUCT_SOONG_NAMESPACES += \
 # setup dalvik vm configs
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
+# Allow to override ramdisk until we can produce fully generic builds
+RAMDISK_FSTAB_TARGET ?= $(LOCAL_PATH)/fstab.ramdisk
 
 PRODUCT_COPY_FILES := \
-    $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_RAMDISK)/fstab.sdm845 \
-    $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.sdm845 \
+    $(RAMDISK_FSTAB_TARGET):$(TARGET_COPY_OUT_RAMDISK)/fstab.sdm845 \
+    $(RAMDISK_FSTAB_TARGET):$(TARGET_COPY_OUT_VENDOR)/etc/fstab.sdm845 \
     device/generic/sdm845/init.common.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.sdm845.rc \
     device/generic/sdm845/init.common.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.sdm845.usb.rc \
     device/generic/sdm845/common.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/sdm845.kl
