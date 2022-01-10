@@ -27,7 +27,7 @@ ifeq ($(LLVM_SA), true)
 endif
 LOCAL_CFLAGS += -Wno-error
 LOCAL_CLANG  := true
-LOCAL_MODULE := lights.$(TARGET_BOARD_PLATFORM)
+LOCAL_MODULE := lights.$(TARGET_DEVICE)
 LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0 legacy_not_a_contribution
 LOCAL_LICENSE_CONDITIONS := by_exception_only not_allowed notice
 LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE
