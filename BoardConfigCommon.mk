@@ -42,6 +42,7 @@ BOARD_KERNEL_CMDLINE     += androidboot.boot_devices=soc@0/1d84000.ufshc
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=sdm845
 BOARD_KERNEL_CMDLINE     += firmware_class.path=/vendor/firmware/ init=/init printk.devkmsg=on
 BOARD_KERNEL_CMDLINE     += deferred_probe_timeout=30
+BOARD_KERNEL_CMDLINE     += androidboot.selinux=permissive
 
 # Image Configuration
 BOARD_FLASH_BLOCK_SIZE := 262144
