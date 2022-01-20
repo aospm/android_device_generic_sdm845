@@ -14,5 +14,11 @@
 # limitations under the License.
 #
 
+# Build generic Audio HAL
+PRODUCT_PACKAGES := audio.primary.$(TARGET_DEVICE)
+
+# Build generic lights HAL
+PRODUCT_PACKAGES += lights.$(TARGET_DEVICE)
+
 RAMDISK_FSTAB_TARGET := $(LOCAL_PATH)/fstab.ramdisk
 $(call inherit-product, device/generic/sdm845/sdm845/device.mk)
