@@ -4,3 +4,10 @@ include device/generic/sdm845/BoardConfigCommon.mk
 # Board Information
 TARGET_BOOTLOADER_BOARD_NAME := enchilada
 TARGET_BOARD_PLATFORM := enchilada
+
+# Kernel/boot.img Configuration
+BOARD_KERNEL_CMDLINE     += androidboot.hardware=enchilada
+
+# Image Configuration
+BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 2998927360
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 57453555712

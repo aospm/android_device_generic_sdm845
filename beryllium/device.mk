@@ -14,11 +14,15 @@
 # limitations under the License.
 #
 
+PRODUCT_COPY_FILES := \
+    $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_RAMDISK)/fstab.beryllium \
+    $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.beryllium \
+    device/generic/sdm845/init.common.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.beryllium.rc \
+    device/generic/sdm845/init.common.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.beryllium.usb.rc \
+    device/generic/sdm845/common.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/beryllium.kl
+
 # Build generic Audio HAL
-PRODUCT_PACKAGES := audio.primary.$(TARGET_DEVICE)
+PRODUCT_PACKAGES := audio.primary.beryllium
 
 # Build generic lights HAL
-PRODUCT_PACKAGES += lights.$(TARGET_DEVICE)
-
-RAMDISK_FSTAB_TARGET := $(LOCAL_PATH)/fstab.ramdisk
-$(call inherit-product, device/generic/sdm845/sdm845/device.mk)
+PRODUCT_PACKAGES += lights.beryllium

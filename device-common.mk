@@ -14,6 +14,10 @@
 # limitations under the License.
 #
 
+# copied from crosshatch
+# setup dalvik vm configs
+$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
+
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
@@ -76,6 +80,17 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf \
     wificond
+
+PRODUCT_PACKAGES += \
+    pd-mapper \
+    qrtr-ns \
+    qrtr-cfg \
+    qrtr-lookup \
+    rmtfs \
+    tqftpserv
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/qcom/init.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.qcom.rc
 
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
@@ -201,4 +216,6 @@ PRODUCT_COPY_FILES +=  \
 # Copy firmware files
 $(call inherit-product-if-exists, $(LOCAL_PATH)/firmware/device.mk)
 
-PRODUCT_SOONG_NAMESPACES += external/mesa3d
+PRODUCT_SOONG_NAMESPACES += \
+    device/generic/sdm845 \
+    external/mesa3d
