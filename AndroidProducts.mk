@@ -11,10 +11,8 @@
 
 PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/beryllium.mk \
-    $(LOCAL_DIR)/enchilada.mk \
-    $(LOCAL_DIR)/sdm845.mk
+    $(LOCAL_DIR)/enchilada.mk
 
 COMMON_LUNCH_CHOICES := \
     beryllium-userdebug \
-    enchilada-userdebug \
-    sdm845-userdebug
+    enchilada-userdebug
