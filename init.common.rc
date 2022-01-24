@@ -9,6 +9,13 @@ on post-fs
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
 
+    # make sure remoteprocs have booted, some will attempt
+    # to start before firmware is available and not automatically
+    # retry.
+    write /sys/class/remoteproc/remoteproc0/state start
+    write /sys/class/remoteproc/remoteproc1/state start
+    write /sys/class/remoteproc/remoteproc2/state start
+
 on init
     # Initialize cpusets to boot-time values
     write /dev/cpuset/foreground/cpus 0-7
