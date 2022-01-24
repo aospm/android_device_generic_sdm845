@@ -22,6 +22,7 @@
 /sys/class/backlight(/.*)?								u:object_r:sysfs_lights:s0
 
 /sys/class/power_supply(/.*)?								u:object_r:sysfs_power:s0
+/sys/devices/platform/soc@0/.*/power_supply(/.*)?					u:object_r:sysfs_power:s0
 
 /sys/class/remoteproc									u:object_r:sysfs_remoteproc:s0
 /sys/devices/platform/remoteproc-adsp/remoteproc					u:object_r:sysfs_remoteproc:s0
