@@ -17,6 +17,7 @@
 PRODUCT_COPY_FILES := \
     $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_RAMDISK)/fstab.axolotl \
     $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.axolotl \
+    device/generic/sdm845/etc/audio.sdm845.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio.axolotl.xml \
     device/generic/sdm845/init.common.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.axolotl.rc \
     device/generic/sdm845/init.common.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.axolotl.usb.rc \
     device/generic/sdm845/common.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/axolotl.kl
