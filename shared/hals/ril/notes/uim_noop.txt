@@ -1,0 +1,178 @@
+ferret:~/libqmi$ qmicli -d qrtr://0 --uim-noop --verbose
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] socket lookup from 1:0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:1 -> service 66, version 1, instance 180
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] created new node 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:4 -> service 43, version 2, instance 18
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:22 -> service 15, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:23 -> service 51, version 1, instance 2
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:24 -> service 21, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:25 -> service 24, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:26 -> service 23, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:27 -> service 22, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:29 -> service 36, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:30 -> service 49, version 1, instance 2
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:35 -> service 54, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:37 -> service 17, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:38 -> service 74, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:39 -> service 4098, version 0, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:41 -> service 34, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:43 -> service 41, version 1, instance 1
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:46 -> service 55, version 1, instance 2
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:47 -> service 228, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:51 -> service 50, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:53 -> service 9, version 2, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:54 -> service 3, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:55 -> service 12, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:56 -> service 10, version 2, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:57 -> service 1, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:58 -> service 4, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:59 -> service 26, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:60 -> service 7, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:61 -> service 8, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:62 -> service 29, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:63 -> service 47, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:64 -> service 71, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:65 -> service 11, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:71 -> service 42, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:72 -> service 2, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:73 -> service 5, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:75 -> service 48, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:76 -> service 68, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:80 -> service 16, version 2, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:84 -> service 51, version 1, instance 3
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:85 -> service 69, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:91 -> service 77, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:94 -> service 33, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:95 -> service 18, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:106 -> service 4099, version 0, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 0:108 -> service 57, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 1:14 -> service 14, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] created new node 1
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 1:16391 -> service 49, version 1, instance 1
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 1:16395 -> service 64, version 1, instance 1
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 1:16398 -> service 4096, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:1 -> service 15, version 1, instance 32
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] created new node 5
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:2 -> service 66, version 1, instance 74
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:5 -> service 43, version 2, instance 20
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:6 -> service 51, version 1, instance 5
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:8 -> service 24, version 1, instance 1
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:9 -> service 15, version 1, instance 33
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 5:11 -> service 769, version 1, instance 0
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 10:1 -> service 15, version 1, instance 64
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] created new node 10
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 10:2 -> service 66, version 1, instance 76
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 10:5 -> service 43, version 2, instance 23
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 10:6 -> service 51, version 1, instance 13
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] added server on 10:8 -> service 24, version 1, instance 67
+[24 Feb 2022, 16:24:21] [Debug] [qrtr] initial lookup finished
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Opening device with flags 'auto'...
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] selecting QMI mode for QRTR endpoint
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] created endpoint
+[24 Feb 2022, 16:24:21] [Debug] QMI Device at 'qrtr://0' ready
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Assuming service 'uim' is supported...
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Allocating new client ID...
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Sent message...
+<<<<<< RAW:
+<<<<<<   length = 16
+<<<<<<   data   = 01:0F:00:00:00:00:00:01:22:00:04:00:01:01:00:0B
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Sent generic request (translated)...
+<<<<<< QMUX:
+<<<<<<   length  = 15
+<<<<<<   flags   = 0x00
+<<<<<<   service = "ctl"
+<<<<<<   client  = 0
+<<<<<< QMI:
+<<<<<<   flags       = "none"
+<<<<<<   transaction = 1
+<<<<<<   tlv_length  = 4
+<<<<<<   message     = "Allocate CID" (0x0022)
+<<<<<< TLV:
+<<<<<<   type       = "Service" (0x01)
+<<<<<<   length     = 1
+<<<<<<   value      = 0B
+<<<<<<   translated = uim
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Received message...
+<<<<<< RAW:
+<<<<<<   length = 24
+<<<<<<   data   = 01:17:00:80:00:00:01:01:22:00:0C:00:02:04:00:00:00:00:00:01:02:00:0B:01
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Received generic response (translated)...
+<<<<<< QMUX:
+<<<<<<   length  = 23
+<<<<<<   flags   = 0x80
+<<<<<<   service = "ctl"
+<<<<<<   client  = 0
+<<<<<< QMI:
+<<<<<<   flags       = "response"
+<<<<<<   transaction = 1
+<<<<<<   tlv_length  = 12
+<<<<<<   message     = "Allocate CID" (0x0022)
+<<<<<< TLV:
+<<<<<<   type       = "Result" (0x02)
+<<<<<<   length     = 4
+<<<<<<   value      = 00:00:00:00
+<<<<<<   translated = SUCCESS
+<<<<<< TLV:
+<<<<<<   type       = "Allocation Info" (0x01)
+<<<<<<   length     = 2
+<<<<<<   value      = 0B:01
+<<<<<<   translated = [ service = 'uim' cid = '1' ]
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Client version cannot be retrieved when using QRTR
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Registered 'uim' (version unknown) client with ID '1'
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Releasing 'uim' client with flags 'release-cid'...
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Unregistered 'uim' client with ID '1'
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Sent message...
+<<<<<< RAW:
+<<<<<<   length = 17
+<<<<<<   data   = 01:10:00:00:00:00:00:02:23:00:05:00:01:02:00:0B:01
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Sent generic request (translated)...
+<<<<<< QMUX:
+<<<<<<   length  = 16
+<<<<<<   flags   = 0x00
+<<<<<<   service = "ctl"
+<<<<<<   client  = 0
+<<<<<< QMI:
+<<<<<<   flags       = "none"
+<<<<<<   transaction = 2
+<<<<<<   tlv_length  = 5
+<<<<<<   message     = "Release CID" (0x0023)
+<<<<<< TLV:
+<<<<<<   type       = "Release Info" (0x01)
+<<<<<<   length     = 2
+<<<<<<   value      = 0B:01
+<<<<<<   translated = [ service = 'uim' cid = '1' ]
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Received message...
+<<<<<< RAW:
+<<<<<<   length = 24
+<<<<<<   data   = 01:17:00:80:00:00:01:02:23:00:0C:00:02:04:00:00:00:00:00:01:02:00:0B:01
+
+[24 Feb 2022, 16:24:21] [Debug] [qrtr://0] Received generic response (translated)...
+<<<<<< QMUX:
+<<<<<<   length  = 23
+<<<<<<   flags   = 0x80
+<<<<<<   service = "ctl"
+<<<<<<   client  = 0
+<<<<<< QMI:
+<<<<<<   flags       = "response"
+<<<<<<   transaction = 2
+<<<<<<   tlv_length  = 12
+<<<<<<   message     = "Release CID" (0x0023)
+<<<<<< TLV:
+<<<<<<   type       = "Result" (0x02)
+<<<<<<   length     = 4
+<<<<<<   value      = 00:00:00:00
+<<<<<<   translated = SUCCESS
+<<<<<< TLV:
+<<<<<<   type       = "Release Info" (0x01)
+<<<<<<   length     = 2
+<<<<<<   value      = 0B:01
+<<<<<<   translated = [ service = 'uim' cid = '1' ]
+
+[24 Feb 2022, 16:24:21] [Debug] Client released
+[24 Feb 2022, 16:24:21] [Debug] Closed

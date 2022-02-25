@@ -1,0 +1,20 @@
+cc_binary {
+    name: "qrtr-rild",
+    vendor: true,
+    srcs: [
+        "src/qrtr-rild.cc",
+    ],
+    include_dirs: [
+        "hardware/ril/include",
+    ],
+    shared_libs: [
+        "libqrtr",
+        "libril-modem-lib",
+        "libcutils",
+        "libutils",
+        "liblog",
+    ],
+    init_rc: ["rild_qrtr.rc"],
+    relative_install_path: "hw",
+    overrides: ["rild"],
+}
