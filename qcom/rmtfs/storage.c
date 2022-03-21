@@ -41,6 +41,7 @@ static const struct partition partition_table[] = {
 	{ "/boot/modem_fs2", "modem_fs2", "modemst2" },
 	{ "/boot/modem_fsc", "modem_fsc", "fsc" },
 	{ "/boot/modem_fsg", "modem_fsg", "fsg" },
+	{ "/boot/modem_tunning", "modem_tunning", "tunning" },
 	{}
 };
 
@@ -150,8 +151,10 @@ found:
 
 void storage_close(struct rmtfd *rmtfd)
 {
-	close(rmtfd->fd);
-	rmtfd->fd = -1;
+	if (rmtfd->fd >= 0) {
+		close(rmtfd->fd);
+		rmtfd->fd = -1;
+	}
 
 	free(rmtfd->shadow_buf);
 	rmtfd->shadow_buf = NULL;
@@ -188,10 +191,8 @@ void storage_exit(void)
 {
 	int i;
 
-	for (i = 0; i < MAX_CALLERS; i++) {
-		if (rmtfds[i].fd >= 0)
-			close(rmtfds[i].fd);
-	}
+	for (i = 0; i < MAX_CALLERS; i++)
+		storage_close(&rmtfds[i]);
 }
 
 ssize_t storage_pread(const struct rmtfd *rmtfd, void *buf, size_t nbyte, off_t offset)
@@ -242,6 +243,14 @@ ssize_t storage_pwrite(struct rmtfd *rmtfd, const void *buf, size_t nbyte, off_t
 	memcpy((char*)rmtfd->shadow_buf + offset, buf, nbyte);
 
 	return nbyte;
+}
+
+int storage_sync(struct rmtfd *rmtfd)
+{
+	if (storage_read_only)
+		return 0;
+	
+	return fdatasync(rmtfd->fd);
 }
 
 static int storage_populate_shadow_buf(struct rmtfd *rmtfd, const char *file)
