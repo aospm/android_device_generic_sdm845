@@ -10,6 +10,6 @@ allow rmtfs self:capability net_admin;
 allow rmtfs self:qipcrtr_socket { bind create getattr read setopt write };
 allow rmtfs sysfs_mss:dir { open read search };
 allow rmtfs sysfs_remoteproc:dir { open read search };
-allow rmtfs sysfs_remoteproc:file { open write };
+allow rmtfs sysfs_remoteproc:file { open read write };
 allow rmtfs sysfs_rmtfs:dir search;
 allow rmtfs sysfs_rmtfs:file { open read };
