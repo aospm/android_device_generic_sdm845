@@ -1,4 +1,4 @@
-include device/generic/sdm845/BoardConfigCommon.mk
+include device/generic/sdm845/shared/BoardConfig.mk
 
 # Board Information
 TARGET_BOOTLOADER_BOARD_NAME := axolotl

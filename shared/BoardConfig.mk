@@ -76,11 +76,11 @@ BOARD_HAVE_BLUETOOTH := true
 BOARD_USES_TINYHAL_AUDIO := true
 
 BOARD_SEPOLICY_DIRS += \
-    device/generic/sdm845/sepolicy \
+    device/generic/sdm845/shared/sepolicy \
     system/bt/vendor_libs/linux/sepolicy
 
-DEVICE_MANIFEST_FILE := device/generic/sdm845/manifest.xml
-DEVICE_MATRIX_FILE := device/generic/sdm845/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE := device/generic/sdm845/shared/manifest.xml
+DEVICE_MATRIX_FILE := device/generic/sdm845/shared/compatibility_matrix.xml
 
 # Enable dex pre-opt to speed up initial boot
 ifeq ($(HOST_OS),linux)

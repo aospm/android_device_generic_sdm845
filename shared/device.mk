@@ -90,7 +90,7 @@ PRODUCT_PACKAGES += \
     tqftpserv
 
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/qcom/init.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.qcom.rc
+    $(LOCAL_PATH)/vendor/init.vendor.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.vendor.rc
 
 # Install scripts to set consistent Wifi MAC address
 PRODUCT_COPY_FILES += \
