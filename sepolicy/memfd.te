@@ -1,0 +1,28 @@
+# audit2allow
+
+#============= audioserver ==============
+allow audioserver system_server_tmpfs:file { map read write };
+allow audioserver tmpfs:file { map read write };
+
+#============= hal_audio_default ==============
+allow hal_audio_default tmpfs:file { getattr map read write };
+
+#============= mediaextractor ==============
+allow mediaextractor logd:unix_stream_socket connectto;
+allow mediaextractor logdr_socket:sock_file write;
+
+#============= mediaserver ==============
+allow mediaserver audioserver_tmpfs:file { map read write };
+allow mediaserver tmpfs:file { map read write };
+
+#============= mediaswcodec ==============
+allow mediaswcodec appdomain_tmpfs:file { map read write };
+allow mediaswcodec logd:unix_stream_socket connectto;
+allow mediaswcodec logdr_socket:sock_file write;
+allow mediaswcodec mediaserver_tmpfs:file { map read write };
+allow mediaswcodec system_server_tmpfs:file { map read write };
+allow mediaswcodec tmpfs:file { getattr map read write };
+
+#============= system_server ==============
+allow system_server audioserver_tmpfs:file { map read write };
+allow system_server tmpfs:file { map read write };

@@ -1,0 +1,5 @@
+# device specific syscalls
+# extension of frameworks/av/services/mediaextractor/seccomp_policy/mediaextractor-arm64.policy
+uname: 1
+memfd_create: 1
+ftruncate: 1

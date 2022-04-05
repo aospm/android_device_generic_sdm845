@@ -1,3 +1,4 @@
 # device specific syscalls
 # extension of frameworks/av/services/mediacodec/seccomp_policy/mediaswcodec-arm64.policy
 sysinfo: 1
+uname: 1
