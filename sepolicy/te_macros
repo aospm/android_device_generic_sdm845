@@ -7,5 +7,4 @@ allow $1 sysfs_gpu:dir search;
 allow $1 gpu_device:chr_file { getattr ioctl map open read write };
 allow $1 graphics_device:chr_file { getattr };
 allow $1 sysfs_gpu:file { getattr open read };
-allow $1 hal_graphics_allocator_default_tmpfs:file { read write };
 ')

@@ -1,1 +1,2 @@
 gpu_access(surfaceflinger)
+allow surfaceflinger hal_graphics_allocator_default_tmpfs:file { read write };
