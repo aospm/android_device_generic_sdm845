@@ -110,6 +110,8 @@ set_light_backlight(struct light_device_t* dev,
     }
 
     int brightness = rgb_to_brightness(state) << 2; // Scale up to 1020
+    ALOGI("CA:: Writing brightness: %d\n", brightness);
+    brightness = brightness ?: 1 << 2; // Don't allow 0 brightness
     write_brightness(brightness);
 
     return 0;
