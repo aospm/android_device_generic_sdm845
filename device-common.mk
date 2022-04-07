@@ -92,6 +92,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/qcom/init.qcom.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.qcom.rc
 
+# Install scripts to set consistent Wifi MAC address
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/bin/set_wlan_mac.rc:/system/etc/init/set_wlan_mac.rc \
+    $(LOCAL_PATH)/bin/set_wlan_mac.sh:/system/bin/set_wlan_mac.sh
+
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     wifi.supplicant_scan_interval=15
@@ -181,12 +186,8 @@ PRODUCT_PACKAGES += \
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-service \
-    android.hardware.health@2.1-impl-gsdm845 \ # Passthrough implementation
+    android.hardware.health@2.1-impl-sdm845
 
-# Cuttlefish health
-# PRODUCT_PACKAGES += \
-#     android.hardware.health@2.1-impl-cuttlefish \
-#     android.hardware.health@2.1-service
 
 # mkbootimg host tool to build boot.img separately
 PRODUCT_HOST_PACKAGES := \

@@ -1,0 +1,9 @@
+service set_wlan_mac /system/bin/set_wlan_mac.sh
+    class core
+    user root
+    group system
+    disabled
+    oneshot
+
+on post-fs-data
+    start set_wlan_mac

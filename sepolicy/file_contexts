@@ -36,6 +36,7 @@
 /data/vendor/readonly(/.*)?								u:object_r:tqftpserv_vendor_data_file:s0
 
 /system/bin/tinymix									u:object_r:tinymix_exec:s0
+/system/bin/set_wlan_mac\.sh								u:object_r:set_wlan_mac_exec:s0
 
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software			u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_msm		u:object_r:hal_graphics_allocator_default_exec:s0
