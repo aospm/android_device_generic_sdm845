@@ -94,7 +94,7 @@ PRODUCT_COPY_FILES += \
 
 # Install scripts to set consistent Wifi MAC address
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/bin/set_wlan_mac.rc:/system/etc/init/set_wlan_mac.rc \
+    $(LOCAL_PATH)/etc/set_wlan_mac.rc:/system/etc/init/set_wlan_mac.rc \
     $(LOCAL_PATH)/bin/set_wlan_mac.sh:/system/bin/set_wlan_mac.sh
 
 PRODUCT_PROPERTY_OVERRIDES += \
