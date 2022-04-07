@@ -28,29 +28,6 @@ class HealthImpl : public Health {
   public:
     HealthImpl(std::unique_ptr<healthd_config>&& config)
         : Health(std::move(config)) {}
-
-    // A subclass can override this if these information should be retrieved
-    // differently.
-    // Return<void> getChargeCounter(getChargeCounter_cb _hidl_cb) override;
-    // Return<void> getCurrentNow(getCurrentNow_cb _hidl_cb) override;
-    // Return<void> getCurrentAverage(getCurrentAverage_cb _hidl_cb) override;
-    // Return<void> getCapacity(getCapacity_cb _hidl_cb) override;
-    // Return<void> getEnergyCounter(getEnergyCounter_cb _hidl_cb) override;
-    // Return<void> getChargeStatus(getChargeStatus_cb _hidl_cb) override;
-    // Return<void> getStorageInfo(getStorageInfo_cb _hidl_cb) override;
-    // Return<void> getDiskStats(getDiskStats_cb _hidl_cb) override;
-    // Return<void> getHealthInfo(getHealthInfo_cb _hidl_cb) override;
-
-    // Functions introduced in Health HAL 2.1.
-    // Return<void> getHealthConfig(getHealthConfig_cb _hidl_cb) override;
-    // Return<void> getHealthInfo_2_1(getHealthInfo_2_1_cb _hidl_cb) override;
-    // Return<void> shouldKeepScreenOn(shouldKeepScreenOn_cb _hidl_cb) override;
-
-  protected:
-    // A subclass can override this to modify any health info object before
-    // returning to clients. This is similar to healthd_board_battery_update().
-    // By default, it does nothing.
-    // void UpdateHealthInfo(HealthInfo* health_info) override;
 };
 
 }  // namespace implementation
@@ -61,17 +38,13 @@ class HealthImpl : public Health {
 
 extern "C" IHealth* HIDL_FETCH_IHealth(const char* instance) {
     using ::android::hardware::health::V2_1::implementation::HealthImpl;
-    ALOGI("Instance is %s", instance);
     if (instance != "default"sv) {
         ALOGE("Instance is not supported");
         return nullptr;
     }
-    ALOGI("Before InitHealthdConfig()");
     auto config = std::make_unique<healthd_config>();
     InitHealthdConfig(config.get());
-    config->batteryStatusPath = "/sys/class/power_supply/usb/status";
-
-    ALOGI("CA: HAL 2.1!!!! health, status path = %s", config->batteryStatusPath.c_str());
+    config->batteryStatusPath = "/sys/class/power_supply/pmi8998_charger/status";
 
     return new HealthImpl(std::move(config));
 }
