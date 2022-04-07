@@ -29,6 +29,8 @@
 /sys/devices/platform/remoteproc-adsp/remoteproc					u:object_r:sysfs_remoteproc:s0
 /sys/devices/platform/remoteproc-cdsp/remoteproc					u:object_r:sysfs_remoteproc:s0
 
+/sys/devices/platform/soc@0/.*/wakeup(/.*)?						u:object_r:sysfs_wakeup:s0
+
 /data/vendor/tmp(/.*)?									u:object_r:tqftpserv_vendor_data_file:s0
 /data/vendor/readwrite(/.*)?								u:object_r:tqftpserv_vendor_data_file:s0
 /data/vendor/readonly(/.*)?								u:object_r:tqftpserv_vendor_data_file:s0
