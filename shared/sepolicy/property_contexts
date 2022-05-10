@@ -1,0 +1,2 @@
+vendor.hw  u:object_r:vendor_hw_prop:s0
+vendor.sound_card  u:object_r:vendor_sound_card_prop:s0

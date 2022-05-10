@@ -52,7 +52,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.hardware.hwcomposer=drm \
     debug.sf.no_hw_vsync=1 \
     ro.sf.lcd_density=400 \
-    ro.opengles.version=196609
+    ro.opengles.version=196609 \
+    vendor.hw=sdm845
 
 #
 # Hardware Composer HAL
@@ -141,6 +142,7 @@ PRODUCT_PACKAGES += \
 USE_XML_AUDIO_POLICY_CONF := 1
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/etc/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
+    $(BOARD_DIR)/mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/mixer_paths.sdm845.xml \
     $(LOCAL_PATH)/etc/audio_policy_configuration_bluetooth_legacy_hal.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration_bluetooth_legacy_hal.xml \
     $(LOCAL_PATH)/etc/public.libraries.txt:$(TARGET_COPY_OUT_VENDOR)/etc/public.libraries.txt \
     frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \

@@ -2,7 +2,7 @@
 <mixer>
 	<!-- Enable Internal speaker -->
 	<ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
-	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia2' 1" />
+	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia2" value="1" />
 	<ctl name="MultiMedia3 Mixer SLIMBUS_0_TX" value="1" />
 	<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
 	<ctl name="SLIM RX0 MUX" value="AIF1_PB" />
@@ -13,22 +13,23 @@
 	<ctl name="SLIM RX5 MUX" value="ZERO" />
 	<ctl name="SLIM RX6 MUX" value="ZERO" />
 	<ctl name="SLIM RX7 MUX" value="ZERO" />
-	<ctl name="RX INT7_1 MIX1 INP0" value="RX0" />
-	<ctl name="RX INT8_1 MIX1 INP0" value="RX1" />
+	<ctl name="AIF1_CAP Mixer SLIM TX0" value="1" />
+	<ctl name="RX INT7_1 MIX1 INP0" value="RX1" />
+	<ctl name="RX INT8_1 MIX1 INP0" value="RX2" />
 	<ctl name="RX INT1_2 MUX" value="RX0" />
 	<ctl name="RX INT2_2 MUX" value="RX1" />
-	<ctl name="CDC_IF TX7 MUX" value="DEC7" />
+	<ctl name="CDC_IF TX0 MUX" value="DEC0" />
 
 	<ctl name="COMP1 Switch" value="1" />
-    <ctl name="COMP2 Switch" value="1" />
-    <ctl name="COMP7 Switch" value="0" />
-    <ctl name="COMP8 Switch" value="0" />
+	<ctl name="COMP2 Switch" value="1" />
+	<ctl name="COMP7 Switch" value="0" />
+	<ctl name="COMP8 Switch" value="0" />
 
 	<!-- Default speaker -->
-	<ctl name="Amp DSP Switch" value="0" />
+	<!-- <ctl name="Amp DSP Switch" value="0" /> -->
 
 	<!-- Default headphones -->
-	<ctl name="RX INT1_1 MIX1 INP0" value="ZERO" />
+	<!-- <ctl name="RX INT1_1 MIX1 INP0" value="ZERO" />
 	<ctl name="RX INT2_1 MIX1 INP0" value="ZERO" />
 	<ctl name="RX INT1_1 INTERP" value="ZERO" />
 	<ctl name="RX INT2_1 INTERP" value="ZERO" />
@@ -37,10 +38,15 @@
 	<ctl name="COMP1 Switch" value="0" />
 	<ctl name="COMP2 Switch" value="0" />
 	<ctl name="RX1 Digital Volume" value="0" />
-	<ctl name="RX2 Digital Volume" value="0" />
+	<ctl name="RX2 Digital Volume" value="0" /> -->
 
 	<path name="speaker">
+		<ctl name="QUAT_MI2S_RX Audio Mixer MultiMedia1" value="1" />
+		<ctl name="COMP7 Switch" value="1" />
+		<ctl name="COMP8 Switch" value="1" />
 		<ctl name="Amp DSP Switch" value="1" />
+		<ctl name="RX7 Digital Volume" value="84" />
+		<ctl name="RX8 Digital Volume" value="84" />
 	</path>
 
 	<path name="headset">
@@ -50,14 +56,15 @@
         <ctl name="RX INT1_2 MUX" value="RX2" />
         <ctl name="RX INT2_2 MUX" value="RX3" /> -->
 
-		<ctl name="RX INT1_1 MIX1 INP0" value="RX0" />
+		<!-- <ctl name="RX INT1_1 MIX1 INP0" value="RX0" />
 		<ctl name="RX INT2_1 MIX1 INP0" value="RX1" />
 		<ctl name="RX INT1_1 INTERP" value="RX INT1_1 MIX1" />
-		<ctl name="RX INT2_1 INTERP" value="RX INT2_1 MIX1" />
-		<ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
-		<ctl name="RX INT2 DEM MUX" value="CLSH_DSM_OUT" />
+		<ctl name="RX INT2_1 INTERP" value="RX INT2_1 MIX1" /> -->
+
 		<ctl name="COMP1 Switch" value="1" />
 		<ctl name="COMP2 Switch" value="1" />
+		<ctl name="RX INT1 DEM MUX" value="CLSH_DSM_OUT" />
+		<ctl name="RX INT2 DEM MUX" value="CLSH_DSM_OUT" />
 		<ctl name="RX1 Digital Volume" value="84" />
 		<ctl name="RX2 Digital Volume" value="84" />
 	</path>

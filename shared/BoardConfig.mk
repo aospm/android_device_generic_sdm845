@@ -72,9 +72,6 @@ BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
 # BT
 BOARD_HAVE_BLUETOOTH := true
 
-# TinyHAL
-BOARD_USES_TINYHAL_AUDIO := true
-
 BOARD_SEPOLICY_DIRS += \
     device/generic/sdm845/shared/sepolicy \
     system/bt/vendor_libs/linux/sepolicy
