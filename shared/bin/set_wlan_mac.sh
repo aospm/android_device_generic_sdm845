@@ -2,11 +2,10 @@
 # Set wlan0 mac address.
 #
 # Get the unique board serial number from /proc/cmdline,
-# prepend '0's to the serial number to fill 5 LSBs of the
-# MAC address and prepend "02" as MSB to prepare a 6 byte
-# locally administered unicast MAC address.
-# Format the output in xx:xx:xx:xx:xx:xx format for the
-# "ip" set address command to work.
+# hash it and use the first 6 bytes as the mac address.
+# If the serial number is not available, use some random number
+# instead. After first boot the MAC address is written to userdata
+# so that subsequent boots don't change the mac address.
 
 DEV="wlan0"
 
