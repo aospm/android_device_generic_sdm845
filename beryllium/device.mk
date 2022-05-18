@@ -17,7 +17,6 @@
 PRODUCT_COPY_FILES := \
     $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_RAMDISK)/fstab.beryllium \
     $(LOCAL_PATH)/fstab.ramdisk:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.beryllium \
-    device/generic/sdm845/shared/etc/audio.sdm845.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio.beryllium.xml \
     device/generic/sdm845/shared/init.sdm845.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.beryllium.rc \
     device/generic/sdm845/shared/init.sdm845.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.beryllium.usb.rc \
     device/generic/sdm845/shared/key_layout.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/beryllium.kl
@@ -27,3 +26,9 @@ PRODUCT_PACKAGES := audio.primary.beryllium
 
 # Build generic lights HAL
 PRODUCT_PACKAGES += lights.beryllium
+
+# FIXME: the DTS sets the sound card model to "Xiaomi Poco F1" but the kernel doesn't handle spaces
+# in the sound card model very well...
+# This might not even be correct
+PRODUCT_PROPERTY_OVERRIDES += \
+    vendor.sound_card=F1 

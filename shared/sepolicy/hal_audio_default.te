@@ -1,0 +1,7 @@
+vendor_public_prop(vendor_hw_prop)
+set_prop(hal_audio_default, vendor_hw_prop)
+get_prop(vendor_init, vendor_hw_prop)
+
+vendor_public_prop(vendor_sound_card_prop)
+set_prop(hal_audio_default, vendor_sound_card_prop)
+get_prop(vendor_init, vendor_sound_card_prop)
