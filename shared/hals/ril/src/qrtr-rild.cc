@@ -31,11 +31,25 @@
 
 #include <cstring>
 
+#include "list.h"
+
 #include "libqrtr.h"
+
+#include "qmi-enums.h"
+
+#define QRTR_PORT_UIM 63
+
+struct qmi_qmux_msg {
+	uint8_t iftype;
+	uint16_t len;
+	uint8_t flags;
+	QmiService service;
+	uint8_t client;
+} __attribute__((packed));
 
 int main(int argc, char **argv)
 {
-	struct qrtr_ctrl_pkt pkt;
+	struct qmi_qmux_msg pkt;
 	struct sockaddr_qrtr sq;
 	unsigned int instance;
 	unsigned int service;
@@ -51,13 +65,13 @@ int main(int argc, char **argv)
 	rc = 0;
 	memset(&pkt, 0, sizeof(pkt));
 
-	sock = qrtr_open(QRTR_TYPE_NEW_LOOKUP);
+	sock = qrtr_open(0);
 
-	pkt.cmd = QRTR_TYPE_NEW_LOOKUP;
+	pkt.iftype = 0;
 
-	rc = qrtr_sendto(sock, 1, QRTR_PORT_CTRL, &pkt, sizeof(pkt));
+	rc = qrtr_sendto(sock, 0, QRTR_PORT_UIM, &pkt, sizeof(pkt));
 
-	RLOGD("  Service Version Instance Node  Port\n");
+	printf("  Service Version Instance Node  Port\n");
 
 	while ((len = recv(sock, &pkt, sizeof(pkt), 0)) > 0) {
 		unsigned int type = pkt.cmd;
@@ -65,7 +79,7 @@ int main(int argc, char **argv)
 		unsigned int i;
 
 		if (len < sizeof(pkt) || type != QRTR_TYPE_NEW_SERVER) {
-			RLOGW("invalid/short packet");
+			printf("invalid/short packet");
 			continue;
 		}
 
@@ -81,7 +95,7 @@ int main(int argc, char **argv)
 
 		name = "--";
 
-		RLOGI("%9d %7d %8d %4d %5d %s\n",
+		printf("%9d %7d %8d %4d %5d %s\n",
 			service, version, instance, node, port, name);
 	}
 

@@ -1,8 +1,11 @@
 cc_binary {
-    name: "qrtr-rild",
+    name: "rild_qrtr",
     vendor: true,
     srcs: [
         "src/qrtr-rild.cc",
+    ],
+    local_include_dirs: [
+        "include",
     ],
     include_dirs: [
         "hardware/ril/include",
