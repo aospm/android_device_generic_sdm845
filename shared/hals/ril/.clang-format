@@ -1,0 +1,6 @@
+---
+IndentWidth: '8'
+ReflowComments: 'true'
+SortIncludes: 'true'
+TabWidth: '8'
+UseTab: Always
