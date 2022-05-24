@@ -75,6 +75,7 @@ ferret:~/libqmi$ qmicli -d qrtr://0 --uim-get-card-status --verbose
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Sent message...
 <<<<<< RAW:
 <<<<<<   length = 16
+                 |     QMUX HDR    |
 <<<<<<   data   = 01:0F:00:00:00:00:00:01:22:00:04:00:01:01:00:0B
 
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Sent generic request (translated)...

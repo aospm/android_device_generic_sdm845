@@ -1,11 +1,15 @@
 cc_binary {
-    name: "rild_qrtr",
+    name: "qrild",
     vendor: true,
     srcs: [
-        "src/qrtr-rild.cc",
+        "src/qrild.c",
+        "src/qmi_tlv.c",
+        "src/util.c",
+        // Auto-generated with qmic
+        "src/qmi_qrild_svc.c"
     ],
     local_include_dirs: [
-        "include",
+        "src",
     ],
     include_dirs: [
         "hardware/ril/include",
@@ -17,7 +21,7 @@ cc_binary {
         "libutils",
         "liblog",
     ],
-    init_rc: ["rild_qrtr.rc"],
+    init_rc: ["qrild.rc"],
     relative_install_path: "hw",
     overrides: ["rild"],
 }

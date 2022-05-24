@@ -87,7 +87,7 @@ PRODUCT_PACKAGES += \
     qrtr-lookup \
     rmtfs \
     tqftpserv \
-    qrtr-rild
+    qrild
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/vendor/init.vendor.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.vendor.rc

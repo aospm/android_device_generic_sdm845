@@ -1,0 +1,21 @@
+package qrild_svc;
+
+const QMI_QRILD_RESULT_SUCCESS = 0;
+const QMI_QRILD_RESULT_FAILURE = 1;
+
+struct qmi_result {
+	u16 result;
+	u16 error;
+};
+
+request ctl ctl_allocate_cid_req {
+	optional u8 service = 1;
+} = 0x0022;
+
+response ctl ctl_allocate_cid_resp {
+	required qmi_result result = 2;
+	# MSB: QMI service type (CID)
+	# LSB: Client ID
+	optional u16 client_id = 1;
+} = 0x0022;
+
