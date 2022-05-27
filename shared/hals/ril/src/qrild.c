@@ -15,96 +15,67 @@
  */
 
 #include <telephony/ril.h>
-#define LOG_TAG "QRTR-RILD"
-#include <log/log.h>
 
+#include <dirent.h>
+#include <fcntl.h>
+#include <libgen.h>
+#include <linux/qrtr.h>
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
-#include <fcntl.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <syslog.h>
+#include <errno.h>
 
 #include "libqrtr.h"
-#include "qrild.h"
-#include "util.h"
+#include "logging.h"
 
 #include "qmi_qrild_svc.h"
+#include "qrild.h"
+#include "qrild_qrtr.h"
+#include "qrild_qmi.h"
+#include "util.h"
 
-struct rild_state {
-	// The QRTR socket
-	int sock;
-	int txn;
-};
+int main(int argc, char **argv) {
+	struct rild_state state;
+	int len;
+	uint8_t buf[32];
+	const char *progname = basename(argv[0]);
 
-struct rild_state state;
-
-/**
- * qmux_add_header() - add a qmux header to a QMI packet
- * 
- * @service: the QMI service to send the data to
- * @client: the client ID
- * @data: the encoded QMI packet
- * @len: length of data
- * 
- * @return: a pointer to the QMI packet with the QMUX header prepended
- * 
- * This function frees data and replaces it with
- * a new pointer with the QMUX header prepended.
- * len is updated to the new length of the buffer.
- */
-uint8_t* qmux_add_header(enum qmi_service service, uint8_t client, uint8_t* data, size_t *len) {
-	uint8_t* buf = (uint8_t*)malloc(*len + sizeof(struct qmux_header));
-	struct qmux_header* header = (struct qmux_header*)buf;
-
-	memset(buf, 0, sizeof(struct qmux_header));
-	memcpy(buf + sizeof(struct qmux_header), data, *len);
-
-	*len += sizeof(struct qmux_header);
-
-	free(data);
-
-	header->tf = 1;
-	header->len = *len - 1;
-	header->ctrl_flag = 0;
-	header->service = service;
-	header->client = client;
-
-	return buf;
-}
-
-int qmi_ctl_allocate_cid() {
-	size_t len;
-	struct qrild_svc_ctl_allocate_cid_req* req = qrild_svc_ctl_allocate_cid_req_alloc(state.txn);
-	qrild_svc_ctl_allocate_cid_req_set_service(req, QMI_SERVICE_UIM);
-
-	uint8_t* buf = (uint8_t*)qrild_svc_ctl_allocate_cid_req_encode(req, &len);
-	buf = qmux_add_header(QMI_SERVICE_CTL, 0, buf, &len);
-	print_hex_dump("allocate CID", buf, len);
-
-	return 0;
-}
-
-int main(int argc, char **argv)
-{
 	(void)argc;
-	(void)argv;
-	int rc = 0;
 
-	printf("qmux hdr size: %lu\n", sizeof(struct qmux_header));
-	
+	qlog_setup(progname, false);
+	qlog_set_min_priority(LOG_DEBUG);
+
+	memset(&state, 0, sizeof(state));
+	memset(buf, 0, 32);
+
+	state.sock = -1;
 	state.txn = 1;
+	list_init(&state.services);
 
-	qmi_ctl_allocate_cid();
+	state.sock = qrtr_open(0);
+	if (state.sock < 0) {
+		LOGE("Failed to open QRTR socket: %d", state.sock);
+		return EXIT_FAILURE;
+	}
+
+	// Find all QRTR services
+	qrild_qrtr_do_lookup(&state);
+
+	qmi_ctl_allocate_cid(&state);
+
+	qmi_uim_get_card_status(&state);
+
+	// len = recv(state.sock, buf, 32, 0);
+	// if (len < 0)
+	// 	PLOGE_AND_EXIT("recv() %d", len);
+	// printf("Got %d bytes\n", len);
+	// print_hex_dump("RECV:", buf, len);
+
+	qrtr_close(state.sock);
+
 	return 0;
-
-	// state->sock = qrtr_open(0);
-
-	
-
-	// close(state->sock);
-
-	// return 0;
 }

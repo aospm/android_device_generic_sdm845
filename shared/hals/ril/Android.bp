@@ -3,6 +3,8 @@ cc_binary {
     vendor: true,
     srcs: [
         "src/qrild.c",
+        "src/qrild_qmi.c",
+        "src/qrild_qrtr.c",
         "src/qmi_tlv.c",
         "src/util.c",
         // Auto-generated with qmic
@@ -19,7 +21,6 @@ cc_binary {
         "libril-modem-lib",
         "libcutils",
         "libutils",
-        "liblog",
     ],
     init_rc: ["qrild.rc"],
     relative_install_path: "hw",
