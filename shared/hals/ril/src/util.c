@@ -14,7 +14,7 @@ static uint8_t to_hex(uint8_t ch)
 	return ch <= 9 ? '0' + ch : 'a' + ch - 10;
 }
 
-#define LINE_LENGTH 48
+#define LINE_LENGTH 64
 
 void print_hex_dump(const char *prefix, const void *buf, size_t len)
 {
@@ -27,7 +27,7 @@ void print_hex_dump(const char *prefix, const void *buf, size_t len)
 	int j;
 
 	if (len < 0) {
-		LOGW("%s: len %d less than 0", __func__, len);
+		LOGW("%s: len %zu less than 0", __func__, len);
 		return;
 	}
 
@@ -42,14 +42,14 @@ void print_hex_dump(const char *prefix, const void *buf, size_t len)
 			ch = ptr[i + j];
 			line[li++] = to_hex(ch >> 4);
 			line[li++] = to_hex(ch);
-			line[li++] = ' ';
+			line[li++] = j < linelen - 1 ? ':' : ' ';
 		}
 
-		for (; j < LINE_LENGTH; j++) {
-			line[li++] = ' ';
-			line[li++] = ' ';
-			line[li++] = ' ';
-		}
+		// for (; j < LINE_LENGTH; j++) {
+		// 	line[li++] = ' ';
+		// 	line[li++] = ' ';
+		// 	line[li++] = ' ';
+		// }
 
 		// for (j = 0; j < linelen; j++) {
 		// 	ch = ptr[i + j];
@@ -58,17 +58,7 @@ void print_hex_dump(const char *prefix, const void *buf, size_t len)
 
 		line[li] = '\0';
 
-		LOGD("<<< %04x: %s\n", i, line);
+		LOGD("<<<    %s (%zu)\n", line, linelen);
 	}
 }
 
-const char* qmi_service_to_string(enum qmi_service service, bool short_name) {
-	const struct enum_value* v = &qmi_service_values[0];
-	while (v->value_str) {
-		if (v->value == service)
-			return short_name ? v->name : v->value_str;
-		v++;
-	}
-
-	return NULL;
-}

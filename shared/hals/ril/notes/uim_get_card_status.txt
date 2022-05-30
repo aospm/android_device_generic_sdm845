@@ -128,6 +128,7 @@ ferret:~/libqmi$ qmicli -d qrtr://0 --uim-get-card-status --verbose
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Sent message...
 <<<<<< RAW:
 <<<<<<   length = 13
+                  01 0c 00 00 0b 01 00 01 00 2f 00 00 00   
 <<<<<<   data   = 01:0C:00:00:0B:01:00:01:00:2F:00:00:00
 
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Sent generic request (translated)...
@@ -145,6 +146,7 @@ ferret:~/libqmi$ qmicli -d qrtr://0 --uim-get-card-status --verbose
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Received message...
 <<<<<< RAW:
 <<<<<<   length = 98
+                  02 0c 00 00 0b 07 00 02 04 00 01 00 01
 <<<<<<   data   = 01:61:00:00:0B:01:02:01:00:2F:00:55:00:02:04:00:00:00:00:00:16:09:00:02:00:00:00:00:00:00:00:00:15:03:00:02:00:00:11:03:00:02:02:02:10:33:00:00:00:FF:FF:FF:FF:FF:FF:02:01:00:00:00:00:01:02:07:02:0B:00:00:10:A0:00:00:00:87:10:02:FF:44:FF:12:89:00:00:01:00:00:03:03:0A:01:03:0A:02:00:00:00:03:00
 
 [24 Feb 2022, 16:10:15] [Debug] [qrtr://0] Received generic response (translated)...
