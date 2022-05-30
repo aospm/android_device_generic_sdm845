@@ -21,6 +21,7 @@ int qmi_tlv_set_array(struct qmi_tlv *tlv, unsigned id, unsigned len_size, void 
 
 #define QMI_QRILD_RESULT_SUCCESS 0
 #define QMI_QRILD_RESULT_FAILURE 1
+#define QMI_UIM_GET_CARD_STATUS 0x2F
 
 struct qrild_svc_qmi_result {
 	uint16_t result;
@@ -32,14 +33,14 @@ struct qrild_svc_uim_card_status {
 	uint16_t index_1x_primary;
 	uint16_t index_gw_secondary;
 	uint16_t index_1x_secondary;
-	uint32_t cards_n;
+	uint8_t cards_n;
 	struct qrild_svc_uim_card_status_cards {
 		uint8_t card_state;
 		uint8_t upin_state;
 		uint8_t upin_retries;
 		uint8_t upuk_retries;
 		uint8_t error_code;
-		uint32_t applications_n;
+		uint8_t applications_n;
 		struct qrild_svc_uim_card_status_cards_applications {
 			uint8_t type;
 			uint8_t state;
@@ -47,7 +48,7 @@ struct qrild_svc_uim_card_status {
 			uint8_t personalization_feature;
 			uint8_t personalization_retries;
 			uint8_t personalization_unblock_retries;
-			uint32_t application_identifier_value_n;
+			uint8_t application_identifier_value_n;
 			uint8_t *application_identifier_value;
 			uint8_t upin_replaces_pin1;
 			uint8_t pin1_state;
@@ -56,9 +57,9 @@ struct qrild_svc_uim_card_status {
 			uint8_t pin2_state;
 			uint8_t pin2_retries;
 			uint8_t puk2_retries;
-		} *applications;
-	} *cards;
-};
+		} __attribute__((__packed__))  *applications;
+	} __attribute__((__packed__)) *cards;
+} __attribute__((__packed__));
 
 struct qrild_svc_ctl_allocate_cid_req;
 struct qrild_svc_ctl_allocate_cid_resp;

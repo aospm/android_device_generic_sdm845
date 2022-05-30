@@ -203,8 +203,8 @@ struct __attribute__((packed)) qmux_header {
 	uint8_t client;
 };
 
-struct qmi_service_version {
-	uint16_t type;
+struct qmi_service_info {
+	enum qmi_service type;
 	uint16_t major;
 	uint16_t minor;
 	uint16_t node;
@@ -213,6 +213,25 @@ struct qmi_service_version {
 	struct list_item li;
 	uint8_t client_id;
 };
+
+#define qmi_service_get(_i, _s)                                             \
+	({                                                                     \
+		struct list_item *node;                                        \
+		struct qmi_service_info *svc, *out = NULL;                 \
+		list_for_each(_i, node) {                        \
+			svc =                                              \
+			    list_entry(node, struct qmi_service_info, li);     \
+			if (svc->type == _s)                              \
+				out = svc;                                 \
+		}                                                              \
+		out;                                                           \
+	})
+
+#define qmi_service_get_port(_i, _s)                                        \
+	({                                                                     \
+		struct qmi_service_info *svc = qmi_service_get(_i, _s);     \
+		svc ? svc->port : -1;                                          \
+	})
 
 struct rild_state {
 	// The QRTR socket

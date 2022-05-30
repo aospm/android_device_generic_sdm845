@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Caleb Connolly <caleb.connolly@linaro.org>
+ * Copyright (C) 2022, Linaro Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@
 
 int main(int argc, char **argv) {
 	struct rild_state state;
-	int len;
+	int len, rc;
 	uint8_t buf[32];
 	const char *progname = basename(argv[0]);
 
@@ -65,9 +65,18 @@ int main(int argc, char **argv) {
 	// Find all QRTR services
 	qrild_qrtr_do_lookup(&state);
 
-	qmi_ctl_allocate_cid(&state);
+	//qmi_ctl_allocate_cid(&state);
 
-	qmi_uim_get_card_status(&state);
+	while (true) {
+		rc = qrtr_poll(state.sock, -1);
+		if (rc < 0)
+			PLOGE_AND_EXIT("Failed to poll");
+		
+		qrild_qrtr_recv(&state);
+
+		if (qmi_service_get(&state.services, QMI_SERVICE_UIM))
+			qmi_req_uim_get_card_status(&state);
+	}
 
 	// len = recv(state.sock, buf, 32, 0);
 	// if (len < 0)
