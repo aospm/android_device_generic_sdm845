@@ -36,20 +36,6 @@
 #include "libqrtr.h"
 #include "logging.h"
 
-/**
- * qmi_header - wireformat header of QMI messages
- * @type:       type of message
- * @txn_id:     transaction id
- * @msg_id:     message id
- * @msg_len:    length of message payload following header
- */
-struct qmi_header {
-	uint8_t type;
-	uint16_t txn_id;
-	uint16_t msg_id;
-	uint16_t msg_len;
-} __attribute__((packed));
-
 
 #define QMI_ENCDEC_ENCODE_TLV(type, length, p_dst) do { \
 	*p_dst++ = type; \
@@ -794,14 +780,21 @@ ssize_t qmi_encode_message(struct qrtr_packet *pkt, int type, int msg_id,
 	return pkt->data_len;
 }
 
-int qmi_decode_header(const struct qrtr_packet *pkt, unsigned int *msg_id)
+const struct qmi_header *qmi_get_header(const struct qrtr_packet *pkt)
 {
 	const struct qmi_header *qmi = pkt->data;
 
 	if (qmi->msg_len != pkt->data_len - sizeof(*qmi)) {
-		LOGW("[RMTFS] Invalid length of incoming qmi request\n");
-		return -EINVAL;
+		LOGW("[QRTR] Invalid length of incoming qmi request\n");
+		return NULL;
 	}
+
+	return qmi;
+}
+
+int qmi_decode_header(const struct qrtr_packet *pkt, unsigned int *msg_id)
+{
+	const struct qmi_header *qmi = qmi_get_header(pkt);
 
 	*msg_id = qmi->msg_id;
 
