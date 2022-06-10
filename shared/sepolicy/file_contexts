@@ -21,6 +21,7 @@
 
 /sys/class/backlight(/.*)?								u:object_r:sysfs_lights:s0
 /sys/devices/platform/soc@0/c440000.spmi/spmi-0/0-03/c440000.spmi:pmic@3:leds@d800/backlight	u:object_r:sysfs_lights:s0
+/sys/devices/platform/soc@0/ae00000.mdss/ae94000.dsi/ae94000.dsi.0/backlight/ae94000.dsi.0	u:object_r:sysfs_lights:s0
 
 /sys/class/power_supply(/.*)?								u:object_r:sysfs_power:s0
 /sys/devices/platform/soc@0/.*/power_supply(/.*)?					u:object_r:sysfs_power:s0
