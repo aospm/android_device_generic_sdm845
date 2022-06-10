@@ -6,7 +6,7 @@ KERNEL_MODS := $(wildcard device/generic/sdm845/shared/prebuilt-kernel/android-$
 
 # Following modules go to vendor partition
 # msm.ko is too big (31M) for ramdisk
-VENDOR_KERN_MODS := %/qcom_q6v5_adsp.ko %/qcom_q6v5_mss.ko %/qcom_q6v5_pas.ko
+VENDOR_KERN_MODS := %/qcom_q6v5_adsp.ko %/qcom_q6v5_mss.ko %/qcom_q6v5_pas.ko %/ipa.ko
 BOARD_VENDOR_KERNEL_MODULES := $(filter $(VENDOR_KERN_MODS),$(KERNEL_MODS))
 
 # All other modules go to ramdisk
