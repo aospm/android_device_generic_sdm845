@@ -39,6 +39,20 @@ struct qrtr_packet {
 	size_t data_len;
 };
 
+/**
+ * qmi_header - wireformat header of QMI messages
+ * @type:       type of message
+ * @txn_id:     transaction id
+ * @msg_id:     message id
+ * @msg_len:    length of message payload following header
+ */
+struct qmi_header {
+	uint8_t type;
+	uint16_t txn_id;
+	uint16_t msg_id;
+	uint16_t msg_len;
+} __attribute__((packed));
+
 #define DEFINE_QRTR_PACKET(pkt, size) \
 	char pkt ## _buf[size]; \
 	struct qrtr_packet pkt = { .data = pkt ##_buf, \
@@ -140,6 +154,7 @@ int qrtr_poll(int sock, unsigned int ms);
 int qrtr_decode(struct qrtr_packet *dest, void *buf, size_t len,
 		const struct sockaddr_qrtr *sq);
 
+const struct qmi_header *qmi_get_header(const struct qrtr_packet *pkt);
 int qmi_decode_header(const struct qrtr_packet *pkt, unsigned int *msg_id);
 int qmi_decode_message(void *c_struct, unsigned int *txn,
 		       const struct qrtr_packet *pkt,
