@@ -4,6 +4,7 @@ include device/generic/sdm845/shared/BoardConfig.mk
 # Board Information
 TARGET_BOOTLOADER_BOARD_NAME := enchilada
 TARGET_BOARD_PLATFORM := enchilada
+TARGET_SCREEN_DENSITY := 400
 
 # Kernel/boot.img Configuration
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=enchilada

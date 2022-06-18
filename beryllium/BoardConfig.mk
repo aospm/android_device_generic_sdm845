@@ -4,6 +4,7 @@ include device/generic/sdm845/shared/BoardConfig.mk
 # Board Information
 TARGET_BOOTLOADER_BOARD_NAME := beryllium
 TARGET_BOARD_PLATFORM := beryllium
+TARGET_SCREEN_DENSITY := 400
 
 # Kernel/boot.img Configuration
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=beryllium
