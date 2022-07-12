@@ -25,9 +25,6 @@ PRODUCT_COPY_FILES := \
 # Audio
 PRODUCT_PACKAGES += audio.primary.axolotl
 
-# Lights
-PRODUCT_PACKAGES += lights.axolotl
-
 # Dynamic Partitions
 PRODUCT_BUILD_SUPER_PARTITION := true
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
