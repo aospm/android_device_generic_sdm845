@@ -198,9 +198,7 @@ PRODUCT_HOST_PACKAGES := \
     mkbootimg
 
 # Lights
-PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-impl \
-    android.hardware.light@2.0-service
+$(call inherit-product, $(LOCAL_PATH)/hals/lights.mk)
 
 # Haptics
 PRODUCT_PACKAGES += \
