@@ -1,4 +1,4 @@
-ifneq ($(filter axolotl beryllium enchilada, $(TARGET_DEVICE)),)
+ifneq ($(filter axolotl beryllium enchilada fajita, $(TARGET_DEVICE)),)
 
 IMAGE_GZ := device/generic/sdm845/shared/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/Image.gz
 DTB := $(wildcard device/generic/sdm845/shared/prebuilt-kernel/android-$(TARGET_KERNEL_USE)/*.dtb)
