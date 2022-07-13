@@ -12,9 +12,11 @@
 PRODUCT_MAKEFILES := \
     axolotl:$(LOCAL_DIR)/axolotl/axolotl.mk \
     beryllium:$(LOCAL_DIR)/beryllium/beryllium.mk \
-    enchilada:$(LOCAL_DIR)/enchilada/enchilada.mk
+    enchilada:$(LOCAL_DIR)/enchilada/enchilada.mk \
+    fajita:$(LOCAL_DIR)/fajita/fajita.mk
 
 COMMON_LUNCH_CHOICES := \
     axolotl-userdebug \
     beryllium-userdebug \
-    enchilada-userdebug
+    enchilada-userdebug \
+    fajita-userdebug
