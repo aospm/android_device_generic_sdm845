@@ -16,6 +16,8 @@ on post-fs
     write /sys/class/remoteproc/remoteproc1/state start
     write /sys/class/remoteproc/remoteproc2/state start
 
+    start vendor.radio-hal
+
 on init
     # Initialize cpusets to boot-time values
     write /dev/cpuset/foreground/cpus 0-7

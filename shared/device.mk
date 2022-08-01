@@ -87,7 +87,11 @@ PRODUCT_PACKAGES += \
     qrtr-lookup \
     rmtfs \
     tqftpserv \
-    qrild
+
+# Radio HAL (modem)
+PRODUCT_PACKAGES += \
+    CarrierConfig \
+    android.hardware.radio-service
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/vendor/init.vendor.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.vendor.rc
