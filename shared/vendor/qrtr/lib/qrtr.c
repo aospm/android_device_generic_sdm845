@@ -52,7 +52,7 @@ int qrtr_open(int rport)
 	}
 
 	if (rport != 0) {
-		struct sockaddr_qrtr sq;
+		struct sockaddr_qrtr sq = {};
 
 		sq.sq_family = AF_QIPCRTR;
 		sq.sq_node = 1;
@@ -78,7 +78,7 @@ void qrtr_close(int sock)
 
 int qrtr_sendto(int sock, uint32_t node, uint32_t port, const void *data, unsigned int sz)
 {
-	struct sockaddr_qrtr sq;
+	struct sockaddr_qrtr sq = {};
 	int rc;
 
 	sq.sq_family = AF_QIPCRTR;

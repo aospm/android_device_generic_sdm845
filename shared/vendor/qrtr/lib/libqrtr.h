@@ -4,6 +4,7 @@
 #include <linux/qrtr.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <stddef.h>
 #include <stdint.h>
 
 #ifdef __cplusplus
@@ -11,7 +12,7 @@ extern "C" {
 #endif
 
 #ifndef offsetof
-#define offsetof(type, md) ((unsigned long)&((type *)0)->md)
+#define offsetof(type, md) ((size_t)&((type *)0)->md)
 #endif
 
 #ifndef container_of
@@ -24,6 +25,7 @@ extern "C" {
 #endif
 
 struct sockaddr_qrtr;
+struct qmi_tlv;
 
 struct qrtr_packet {
 	int type;
@@ -104,7 +106,7 @@ struct qmi_elem_info {
 	uint32_t elem_size;
 	enum qmi_array_type array_type;
 	uint8_t tlv_type;
-	uint32_t offset;
+	size_t offset;
 	struct qmi_elem_info *ei_array;
 };
 
@@ -156,14 +158,28 @@ int qrtr_decode(struct qrtr_packet *dest, void *buf, size_t len,
 
 const struct qmi_header *qmi_get_header(const struct qrtr_packet *pkt);
 int qmi_decode_header(const struct qrtr_packet *pkt, unsigned int *msg_id);
+int qmi_decode_header2(const struct qrtr_packet *pkt, unsigned int *msg_id, unsigned char *type,
+		       unsigned short *txn_id);
 int qmi_decode_message(void *c_struct, unsigned int *txn,
 		       const struct qrtr_packet *pkt,
 		       int type, int id, struct qmi_elem_info *ei);
-int qmi_decode_header2(const struct qrtr_packet *pkt, unsigned int *msg_id, unsigned char *type,
-		       unsigned short *txn_id);
 ssize_t qmi_encode_message(struct qrtr_packet *pkt, int type, int msg_id,
 			   int txn_id, const void *c_struct,
 			   struct qmi_elem_info *ei);
+
+struct qmi_tlv *qmi_tlv_init(uint16_t txn, uint32_t msg_id, uint32_t msg_type);
+void *qmi_tlv_encode(struct qmi_tlv *tlv, size_t *len);
+struct qmi_tlv *qmi_tlv_decode(void *buf, size_t len);
+void qmi_tlv_free(struct qmi_tlv *tlv);
+void qmi_tlv_dump(struct qmi_tlv *tlv);
+void *qmi_tlv_get(struct qmi_tlv *tlv, uint8_t id, size_t *len);
+void *qmi_tlv_get_array(struct qmi_tlv *tlv, uint8_t id, size_t len_size,
+			size_t *len, size_t *size);
+int qmi_tlv_set(struct qmi_tlv *tlv, uint8_t id, void *buf, size_t len);
+int qmi_tlv_set_array(struct qmi_tlv *tlv, uint8_t id, size_t len_size,
+		      void *buf, size_t len, size_t size);
+
+struct qmi_response_type_v01 *qmi_tlv_get_result(struct qmi_tlv *tlv);
 
 /* Initial kernel header didn't expose these */
 #ifndef QRTR_NODE_BCAST

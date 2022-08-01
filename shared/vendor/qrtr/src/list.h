@@ -1,8 +1,10 @@
 #ifndef _LIST_H_
 #define _LIST_H_
 
+#include <stddef.h>
+
 #ifndef offsetof
-#define offsetof(type, md) ((unsigned long)&((type *)0)->md)
+#define offsetof(type, md) ((size_t)&((type *)0)->md)
 #endif
 
 #ifndef container_of

@@ -5,6 +5,10 @@
 #include <stdlib.h>
 #include <syslog.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if defined(__GNUC__) || defined(__clang__)
 #define __PRINTF__(fmt, args) __attribute__((format(__printf__, fmt, args)))
 #else
@@ -32,5 +36,9 @@ void qlog(int priority, const char *format, ...) __PRINTF__(2, 3);
 		qlog(LOG_ERR, fmt ": %s", ##__VA_ARGS__, strerror(errno));	\
 		exit(1);							\
 	} while(0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -64,6 +64,7 @@ static const struct {
 	{ 41, 0, "RF radiated performance enhancement service" },
 	{ 42, 0, "Data system determination service" },
 	{ 43, 0, "Subsystem control service" },
+	{ 47, 0, "Data Port Mapper service" },
 	{ 49, 0, "IPA control service" },
 	{ 51, 0, "CoreSight remote tracing service" },
 	{ 52, 0, "Dynamic Heap Memory Sharing" },
@@ -76,6 +77,7 @@ static const struct {
 	{ 312, 0, "QBT1000 Ultrasonic Fingerprint Sensor service" },
 	{ 769, 0, "SLIMbus control service" },
 	{ 771, 0, "Peripheral Access Control Manager service" },
+	{ 4096, 0, "TFTP" },
 	{ DIAG_SERVICE, 0, "DIAG service" },
 };
 

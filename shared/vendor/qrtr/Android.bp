@@ -4,9 +4,10 @@ cc_library {
     srcs: [
         "lib/logging.c",
         "lib/qrtr.c",
+        "lib/qmi_tlv.c",
         "lib/qmi.c",
     ],
-    cflags: ["-fPIC"],
+    cflags: ["-fPIC", "-Wno-error"],
     export_include_dirs: ["lib"],
     local_include_dirs: ["src"],
 }
@@ -23,6 +24,7 @@ cc_binary {
         "src/waiter.c",
         "src/util.c",
     ],
+    cflags: ["-Wno-error"],
     local_include_dirs: ["lib"],
 }
 
@@ -34,6 +36,7 @@ cc_binary {
         "src/addr.c",
         "src/cfg.c",
     ],
+    cflags: ["-Wno-error"],
     local_include_dirs: ["lib"],
 }
 
@@ -45,5 +48,6 @@ cc_binary {
         "src/lookup.c",
         "src/util.c",
     ],
+    cflags: ["-Wno-error"],
     local_include_dirs: ["lib"],
 }
