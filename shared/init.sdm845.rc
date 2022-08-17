@@ -38,6 +38,11 @@ on zygote-start
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
 
+on post-fs-data
+    # set sys.memfd_use to true now that the ashmem is dropped v5.18
+    # https://lore.kernel.org/all/20220315123457.2354812-1-hch@lst.de/.
+    setprop sys.use_memfd true
+
 on property:sys.boot_completed=1
     chmod 0755 /sys/kernel/debug/tracing
 
