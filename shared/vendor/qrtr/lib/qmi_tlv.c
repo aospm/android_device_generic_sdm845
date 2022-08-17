@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <errno.h>
 #include <string.h>
 #include <stdint.h>
@@ -6,19 +7,6 @@
 #include <stdio.h>
 
 #include "libqrtr.h"
-
-struct qmi_tlv {
-	void *allocated;
-	void *buf;
-	size_t size;
-	int error;
-};
-
-struct qmi_tlv_item {
-	uint8_t key;
-	uint16_t len;
-	uint8_t data[];
-} __attribute__((__packed__));
 
 struct qmi_tlv *qmi_tlv_init(uint16_t txn, uint32_t msg_id, uint32_t msg_type)
 {
@@ -43,7 +31,6 @@ struct qmi_tlv *qmi_tlv_init(uint16_t txn, uint32_t msg_id, uint32_t msg_type)
 
 struct qmi_tlv *qmi_tlv_decode(void *buf, size_t len)
 {
-	struct qmi_header *pkt = buf;
 	struct qmi_tlv *tlv;
 
 	tlv = malloc(sizeof(struct qmi_tlv));
@@ -228,7 +215,7 @@ struct qmi_response_type_v01 *qmi_tlv_get_result(struct qmi_tlv *tlv)
 }
 
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
-#define LINE_LENGTH 64
+#define LINE_LENGTH 40
 
 static inline uint8_t to_hex(uint8_t ch)
 {
@@ -236,47 +223,4 @@ static inline uint8_t to_hex(uint8_t ch)
 	return ch <= 9 ? '0' + ch : 'a' + ch - 10;
 }
 
-void qmi_tlv_dump(struct qmi_tlv *tlv) {
-	struct qmi_tlv_item *item;
-	struct qmi_header *pkt;
-	unsigned offset = 0;
-	void *pkt_data;
-	int i = 0, li, j, k;
-	uint8_t ch;
-	size_t linelen;
-	char line[LINE_LENGTH * 4 + 1];
 
-	pkt = tlv->buf;
-	pkt_data = &pkt[1];
-
-	printf("<<< Message:\n");
-	printf("<<<    type    : %u\n", pkt->type);
-	printf("<<<    msg_len : %u\n", pkt->msg_len);
-	printf("<<<    msg_id  : 0x%04x\n", pkt->msg_id);
-	printf("<<<    txn_id  : %u\n", pkt->txn_id);
-	printf("<<< TLVs:\n");
-	while (offset < tlv->size - sizeof(struct qmi_header)) {
-		item = pkt_data + offset;
-		printf("<<< TLV %d: {id: 0x%02x, len: 0x%02x}\n", i, item->key, item->len);
-		if (item->len > pkt->msg_len - offset) {
-			fprintf(stderr, "Invalid item length!\n");
-			return;
-		}
-		for (j = 0; j < item->len; j += LINE_LENGTH) {
-			linelen = MIN(LINE_LENGTH, item->len - j);
-			li = 0;
-
-			for (k = 0; k < linelen; k++) {
-				ch = item->data[j + k];
-				line[li++] = to_hex(ch >> 4);
-				line[li++] = to_hex(ch);
-				line[li++] = k < linelen - 1 ? ':' : ' ';
-			}
-			line[li] = '\0';
-
-			printf("%s\n\n", line);
-		}
-		offset += sizeof(struct qmi_tlv_item) + item->len;
-		i++;
-	}
-}
