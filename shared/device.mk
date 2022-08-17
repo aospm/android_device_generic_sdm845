@@ -127,9 +127,8 @@ PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.2-impl \
     android.hardware.bluetooth.audio@2.0-impl
 
-# Build default bluetooth a2dp and usb audio HALs
+# Build default audio HALs for bluetooth, remote submix and usb
 PRODUCT_PACKAGES += \
-    audio.a2dp.default \
     audio.bluetooth.default \
     audio.usb.default \
     audio.r_submix.default
