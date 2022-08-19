@@ -198,7 +198,7 @@ PRODUCT_HOST_PACKAGES := \
     mkbootimg
 
 # Lights
-$(call inherit-product, $(LOCAL_PATH)/hals/lights.mk)
+$(call inherit-product, $(LOCAL_PATH)/hals/lights/lights.mk)
 
 # Haptics
 PRODUCT_PACKAGES += \
