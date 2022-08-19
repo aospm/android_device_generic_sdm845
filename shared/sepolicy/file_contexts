@@ -42,7 +42,7 @@
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software			u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_msm		u:object_r:hal_graphics_allocator_default_exec:s0
 /vendor/bin/hw/android\.hardware\.vibrator@1\.1-service\.sdm845				u:object_r:hal_vibrator_default_exec:s0
-/vendor/bin/hw/android\.hardware\.light@2\.0-service					u:object_r:hal_light_default_exec:s0
+/vendor/bin/hw/android\.hardware\.lights-service					u:object_r:hal_light_default_exec:s0
 /vendor/bin/hw/android.hardware.vibrator@1.1-service.ff					u:object_r:hal_vibrator_default_exec:s0
 /vendor/bin/pd-mapper									u:object_r:pd_mapper_exec:s0
 /vendor/bin/qrtr-cfg									u:object_r:qrtr_exec:s0

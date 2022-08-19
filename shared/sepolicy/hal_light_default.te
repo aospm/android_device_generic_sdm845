@@ -1,3 +1,8 @@
+#type hal_light_default, domain;
+#type hal_light_default_exec, exec_type, file_type;
+
 allow hal_light_default sysfs_lights:lnk_file read;
 allow hal_light_default sysfs_lights:file rw_file_perms;
 allow hal_light_default sysfs_lights:dir r_dir_perms;
+
+#init_daemon_domain(hal_light_default)
