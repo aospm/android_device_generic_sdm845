@@ -97,9 +97,9 @@
     -->
     <string-array translatable="false" name="config_telephonyHardware">
         <!-- modem -->
-        <item>0,a-real-modem-i-promise,0,0,14,0,1,1</item>
+        <item>0,org.linaro.qrild.lm1,0,0,2097151,0,1,1</item>
         <!-- sim -->
-        <item>1,totally-a-real-sim-card,0,a-real-modem-i-promise</item>
+        <item>1,totally-a-real-sim-card,0,org.linaro.qrild.lm1</item>
         <!-- <item>1,another-totally-a-real-sim-card,0,a-real-modem-i-promise</item> -->
     </string-array>
 
