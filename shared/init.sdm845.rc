@@ -62,6 +62,7 @@ on property:sys.boot_completed=1
 
 service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
                        -Dnl80211 -g@android:wpa_wlan0
+    interface aidl android.hardware.wifi.supplicant.ISupplicant/default
     interface android.hardware.wifi.supplicant@1.0::ISupplicant default
     interface android.hardware.wifi.supplicant@1.1::ISupplicant default
     socket wpa_wlan0 dgram 660 wifi wifi
