@@ -86,6 +86,8 @@
          (TDC) to offer the basic capabilities of the hardware to the telephony
          framework
     -->
+    <!-- NOTE: This is reported by IRadioModem.getHardwareConfig(), commenting out here to make sure
+        that takes presedence. -->
     <!-- an array of "[hardware type],[hardware-uuid],[state],[[hardware-type specific]]"
          with, [[hardware-type specific]] in:
             - "[[ril-model],[rat],[max-active-voice],[max-active-data],[max-active-standby]]"
@@ -95,13 +97,13 @@
          refer to HardwareConfig in com.android.internal.telephony for specific details/values
          those elements can carry.
     -->
-    <string-array translatable="false" name="config_telephonyHardware">
+    <!-- <string-array translatable="false" name="config_telephonyHardware"> -->
         <!-- modem -->
-        <item>0,org.linaro.qrild.lm1,0,0,2097151,0,1,1</item>
+        <!-- <item>0,org.linaro.qrild.lm1,0,0,2097151,0,1,1</item> -->
         <!-- sim -->
-        <item>1,totally-a-real-sim-card,0,org.linaro.qrild.lm1</item>
+        <!-- <item>1,totally-a-real-sim-card,0,org.linaro.qrild.lm1</item> -->
         <!-- <item>1,another-totally-a-real-sim-card,0,a-real-modem-i-promise</item> -->
-    </string-array>
+    <!-- </string-array> -->
 
     <!-- Number of physical SIM slots on the device. This includes both eSIM and pSIM slots, and
          is not necessarily the same as the number of phones/logical modems supported by the device.
