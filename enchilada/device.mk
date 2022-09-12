@@ -22,6 +22,9 @@ PRODUCT_COPY_FILES := \
     device/generic/sdm845/shared/init.sdm845.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.enchilada.usb.rc \
     device/generic/sdm845/shared/key_layout.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/enchilada.kl
 
+PRODUCT_COPY_FILES += \
+    device/generic/sdm845/shared/init.memfd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.memfd.rc
+
 # Build generic Audio HAL
 PRODUCT_PACKAGES := audio.primary.enchilada
 

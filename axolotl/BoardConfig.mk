@@ -7,6 +7,7 @@ TARGET_SCREEN_DENSITY := 400
 
 # Kernel/boot.img Configuration
 BOARD_KERNEL_CMDLINE += androidboot.hardware=axolotl
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 ##### Partition handling
 
