@@ -8,6 +8,7 @@ TARGET_SCREEN_DENSITY := 400
 
 # Kernel/boot.img Configuration
 BOARD_KERNEL_CMDLINE     += androidboot.hardware=enchilada
+BOARD_KERNEL_CMDLINE     += androidboot.selinux=permissive
 
 # Image Configuration
 BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 2998927360

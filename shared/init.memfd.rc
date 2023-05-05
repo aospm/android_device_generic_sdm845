@@ -1,0 +1,5 @@
+on post-fs-data
+    # set sys.memfd_use to true now that the ashmem is dropped v5.18
+    # https://lore.kernel.org/all/20220315123457.2354812-1-hch@lst.de/.
+    # boots only with selinux=permissive for now
+    setprop sys.use_memfd true
