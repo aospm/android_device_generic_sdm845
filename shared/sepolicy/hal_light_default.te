@@ -1,6 +1,3 @@
-# audit2allow
-allow hal_light_default sysfs_lights:file { read open write };
-allow hal_light_default sysfs_lights:lnk_file { read };
-allow hal_light_default sysfs_gpu:dir { search };
-allow hal_light_default sysfs_gpu:file { read open write };
-allow hal_light_default sysfs_lights:dir { open search read };
+allow hal_light_default sysfs_lights:lnk_file read;
+allow hal_light_default sysfs_lights:file rw_file_perms;
+allow hal_light_default sysfs_lights:dir r_dir_perms;

@@ -14,3 +14,4 @@ modalias_handling enabled
 
 # Backlights
 /sys/class/backlight/* brightness 0660 system system
+/sys/class/backlight/* max_brightness 0644 root system
