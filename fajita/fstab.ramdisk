@@ -1,0 +1,3 @@
+/dev/block/platform/soc@0/1d84000.ufshc/by-name/system /system ext4 noatime,ro,errors=panic wait,first_stage_mount,slotselect
+/dev/block/platform/soc@0/1d84000.ufshc/by-name/vendor /vendor ext4 noatime,ro,errors=panic wait,first_stage_mount,slotselect
+/dev/block/platform/soc@0/1d84000.ufshc/by-name/userdata /data		ext4	discard,noatime,noauto_da_alloc,data=ordered,user_xattr,barrier=1	wait,formattable,quota
